@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import ChatTabNavigator from '../navigation/ChatTabNavigator'
+import { AppColors } from '../components/ui-helpers/Colors'
+// import ChatTabNavigator from '../navigation/ChatTabNavigator'
 
 export class SimpleChatListItem extends Component {
 
-    static router = ChatTabNavigator.router
+    //static router = ChatTabNavigator.router
 
     constructor(props) {
         super(props);
@@ -18,41 +19,52 @@ export class SimpleChatListItem extends Component {
                     <Image 
                         style={styles.itemImage}
                         source={{uri: this.props.avatarUri}}/>
-                    <Text
-                        style={styles.itemText}>
-                        {this.props.contactName}
-                    </Text>
+                    <View>
+                        <Text
+                            style={styles.chatItemTitle}>
+                            {this.props.contactName}
+                        </Text>
+                        <Text
+                            style={styles.chatItemSubtitle}>
+                            Some text goes here...
+                        </Text>
+                    </View>
+                    
                 </View>
             </TouchableOpacity>
         );
     }
 
     onItemClicked() {
-        const navigate = this.props.navigation;
-        this.props.navigate('ChatDetails');
+        // const navigate = this.props.navigation;
+        // this.props.navigate('ChatDetails');
     }
 }
 
 const styles = StyleSheet.create({
     itemContainer: {
-        // width: Dimensions.get('screen').width,
-        // height: Dimensions.get('screen').width * 0.2
         flex: 1,
         flexDirection: 'row'
     },
     itemImage: {
-        width: 40,
-        height: 40,
+        height: 50,
+        width: 50,
         borderRadius: 50,
         overflow: "hidden",
         borderWidth: 3,
-        flex: 0.1,
-        margin: 8
+        margin: 12
     },
-    itemText: {
-        flex: 0.9,
-        textAlignVertical: "center",
+    chatItemTitle: {
+        flex: 1,
+        fontSize: 17,
+        color: AppColors.textColorPrimary,
+        fontWeight: 'bold',
         paddingEnd: 8,
-        paddingVertical: 8
+        paddingTop: 12
+    },
+    chatItemSubtitle: {
+        flex: 0.9,
+        paddingBottom: 12,
+        color: AppColors.textColorSecondary
     }
 }); 
