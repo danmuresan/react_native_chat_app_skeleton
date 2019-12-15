@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Button, ActivityIndicator, StyleSheet } from 'react-native'
 import timeout from '../utils/AsyncUtils';
+import { CommonStyles } from '../components/ui-helpers/CommonStyles'
 
 export default class Login extends Component {
   constructor(props) {
@@ -14,14 +15,12 @@ export default class Login extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.base}>
-          <ActivityIndicator size='large' />
-        </View>
+        <FullScreenLoadingSpinnerView />
       )
     }
 
     return (
-      <View style={styles.base}>
+      <View style={CommonStyles.base}>
         <Button
           title='Login'
           onPress={this.onLogin}/>
@@ -45,11 +44,3 @@ export default class Login extends Component {
     return true;
   }
 }
-
-const styles = StyleSheet.create({
-  base: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})

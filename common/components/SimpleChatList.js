@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { FlatList, ToolbarAndroid, ActivityIndicator, StyleSheet, View, Dimensions} from 'react-native'
+import { FlatList, ActivityIndicator, StyleSheet, View, Dimensions} from 'react-native'
+import { Header } from 'react-native-elements';
 import { SimpleChatListItem } from './SimpleChatListItem'
 import timeout from '../utils/AsyncUtils'
 import { AppColors } from '../components/ui-helpers/Colors'
+import { CommonStyles } from '../components/ui-helpers/CommonStyles'
+import { FullScreenLoadingSpinnerView } from '../components/base/FullScreenLoadingSpinnerView'
 
 export default class SimpleChatList extends Component {
 
@@ -26,19 +29,21 @@ export default class SimpleChatList extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-              <View style={styles.base}>
-                <ActivityIndicator size='small' />
-              </View>
+                <FullScreenLoadingSpinnerView />
             )
         }
 
         console.log('Preparing to load up list UI');
         return (
-            <View style={{flex: 1}}>
-                {/* <ToolbarAndroid
-                    logo={require('../../app_logo.png')}
-                    title="SimpleChatList"/>
-                ) */}
+            <View style={CommonStyles.base}>
+                <Header 
+                    style={CommonStyles.header}
+                    placement='left'
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    leftComponent={{ icon: 'menu', color: AppColors.buttonPrimary }}
+                    centerComponent={{ text: 'Chats', style: CommonStyles.headerText }}
+                    rightComponent={{ icon: 'person', color: AppColors.buttonPrimary }}
+                />
                 <FlatList
                     ItemSeparatorComponent={this.renderListItemSeparator}
                     style={styles.list}
@@ -57,19 +62,13 @@ export default class SimpleChatList extends Component {
     renderListItemSeparator = () => {
         return (
             <View
-              style={{
-                height: 1,
-                width: "80%",
-                backgroundColor: AppColors.separatorListItemDefault,
-                marginLeft: "21%"
-              }}
+              style={styles.listItemSeparator}
             />
           );
     };
 
     async loadDataAsync() {
         // TODO: load up from somewhere
-        this.state.isLoading = true;
         await timeout(500);
         this.state.chatListData = [
             {id: 0, name: 'Ansu', imageUri: 'https://www.fcbarcelonanoticias.com/uploads/s1/11/67/29/2/ansu-fati-bakero.jpeg'},
@@ -96,13 +95,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: Dimensions.get('window').width
     },
-    listHeader: {
-        textAlign:"center",
-        padding: 5
-    },
-    base: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+    listItemSeparator: {
+        height: 1,
+        width: "80%",
+        backgroundColor: AppColors.separatorListItemDefault,
+        marginLeft: "21%"
     }
 })

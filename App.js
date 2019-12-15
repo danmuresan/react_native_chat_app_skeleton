@@ -11,6 +11,8 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { getRootNavigator } from './common/navigation/NavigationUtils';
 import timeout from './common/utils/AsyncUtils';
+import { CommonStyles } from './common/components/ui-helpers/CommonStyles'
+import { FullScreenLoadingSpinnerView } from './common/components/base/FullScreenLoadingSpinnerView';
 
 export default class App extends React.Component {
 
@@ -32,9 +34,7 @@ export default class App extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.base}>
-          <ActivityIndicator size='small' />
-        </View>
+        <FullScreenLoadingSpinnerView />
       )
     }
 
@@ -49,11 +49,3 @@ export default class App extends React.Component {
     return true;
   }
 }
-
-const styles = StyleSheet.create({
-  base: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})

@@ -12,6 +12,7 @@ const ColorsRaw = {
 
 export const AppColors = {
     appBrand: ColorsRaw.babyBlue,
+    buttonPrimary: ColorsRaw.white,
     separatorListItemDefault: ColorsRaw.gray0,
     textColorPrimary: ColorsRaw.black,
     textColorSecondary: ColorsRaw.darkGray3,
