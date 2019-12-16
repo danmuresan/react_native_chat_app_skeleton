@@ -6,6 +6,7 @@ import timeout from '../utils/AsyncUtils'
 import { AppColors } from '../components/ui-helpers/Colors'
 import { CommonStyles } from '../components/ui-helpers/CommonStyles'
 import { FullScreenLoadingSpinnerView } from '../components/base/FullScreenLoadingSpinnerView'
+import { CommonHeaderView } from './base/CommonHeaderView';
 
 export default class SimpleChatList extends Component {
 
@@ -36,14 +37,7 @@ export default class SimpleChatList extends Component {
         console.log('Preparing to load up list UI');
         return (
             <View style={CommonStyles.base}>
-                <Header 
-                    style={CommonStyles.header}
-                    placement='left'
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    leftComponent={{ icon: 'menu', color: AppColors.buttonPrimary }}
-                    centerComponent={{ text: 'Chats', style: CommonStyles.headerText }}
-                    rightComponent={{ icon: 'person', color: AppColors.buttonPrimary }}
-                />
+                <CommonHeaderView pageTitle='Chats' />
                 <FlatList
                     ItemSeparatorComponent={this.renderListItemSeparator}
                     style={styles.list}
