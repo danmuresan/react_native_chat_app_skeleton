@@ -2,12 +2,12 @@ import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Icon } from 'react-native-elements'
 import CallList from '../components/CallListView'
-import SimpleChatList from '../components/SimpleChatList';
+import ChatTabNavigator from './ChatTabNavigator'
 import { AppColors } from '../components/ui-helpers/Colors'
 
 const AuthenticatedNavigator = createBottomTabNavigator({
   ChatList: {
-    screen: SimpleChatList,
+    screen: ChatTabNavigator,
     navigationOptions: {
       tabBarLabel: "Chats",
       tabBarIcon: ({tintColor}) => (<Icon name='chat' color={tintColor}/>),

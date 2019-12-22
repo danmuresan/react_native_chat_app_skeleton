@@ -7,8 +7,17 @@ const ChatTabNavigator = createStackNavigator({
     screen: SimpleChatList
   },
   ChatDetails: {
-    screen: ChatDetailsView
+    screen: ChatDetailsView,
+    navigationOptions: {
+      headerTitle: 'Chat Details'
+    }
+  }
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false
   }
 });
 
-export default ChatTabNavigator
+export default ChatTabNavigator;

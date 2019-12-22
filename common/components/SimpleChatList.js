@@ -46,7 +46,7 @@ export default class SimpleChatList extends Component {
                     renderItem={({ item }) => {
                         console.log(item);
                         return (
-                            <SimpleChatListItem avatarUri={item.imageUri} contactName={item.name}/>
+                            <SimpleChatListItem avatarUri={item.imageUri} contactName={item.name} navigation={this.props.navigation}/>
                         )
                 }}/>
             </View>

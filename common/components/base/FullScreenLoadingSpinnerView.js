@@ -15,6 +15,6 @@ export class FullScreenLoadingSpinnerView extends React.Component {
             <View style={CommonStyles.base}>
                 <ActivityIndicator size={this.props.spinnerSize} />
             </View>
-        );
+            );
     }
 }

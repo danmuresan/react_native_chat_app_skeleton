@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { AppColors } from '../components/ui-helpers/Colors'
-// import ChatTabNavigator from '../navigation/ChatTabNavigator'
 
 export class SimpleChatListItem extends Component {
 
-    //static router = ChatTabNavigator.router
-
     constructor(props) {
         super(props);
-        console.log('Chat list item initialized for item ' + props.contactName + ', imageUri:' + props.avatarUri);            
+        console.log('Chat list item initialized for item ' + props.contactName 
+            + ', imageUri:' + props.avatarUri 
+            + ', navigation: ' + (props.navigation !== undefined));
+            
+        this.onItemClicked = this.onItemClicked.bind(this);
     }
 
     render() {
@@ -36,8 +37,7 @@ export class SimpleChatListItem extends Component {
     }
 
     onItemClicked() {
-        // const navigate = this.props.navigation;
-        // this.props.navigate('ChatDetails');
+        this.props.navigation.navigate('ChatDetails');
     }
 }
 
