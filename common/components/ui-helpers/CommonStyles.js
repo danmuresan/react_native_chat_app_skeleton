@@ -9,6 +9,13 @@ export const CommonStyles = StyleSheet.create({
         color: AppColors.buttonPrimary,
         fontSize: 20
     },
+    centerVerticalHorizontalText: {
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        textAlign: 'center',
+        textAlignVertical: 'center'
+    },
     base: {
         flex: 1,
         justifyContent: 'center',

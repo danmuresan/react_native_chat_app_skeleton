@@ -16,6 +16,8 @@ export class CommonHeaderView extends React.Component {
             isSearchActive: false
         }
 
+        this.searchBarRef = React.createRef();
+
         // without binding, we don't have state in the callbacks
         this.onNotificationsIconClicked = this.onNotificationsIconClicked.bind(this);
         this.onSearchIconClicked = this.onSearchIconClicked.bind(this);
@@ -44,7 +46,7 @@ export class CommonHeaderView extends React.Component {
         if (this.state.isSearchActive) {
             return (
                 <View style={{width: '100%', backgroundColor: AppColors.appBrand}}>
-                    <ProfileSearchBar onSearchComplete={this.onSearchComplete}/>
+                    <ProfileSearchBar ref={this.searchBarRef} onSearchComplete={this.onSearchComplete}/>
                 </View>          
             );
         }
@@ -72,6 +74,7 @@ export class CommonHeaderView extends React.Component {
     onSearchIconClicked() {
         console.log('Search clicked...');
         this.state.isSearchActive = true;
+        // this.searchBarRef.current.showKeyboard();
         this.setState(this.state);
     }
 

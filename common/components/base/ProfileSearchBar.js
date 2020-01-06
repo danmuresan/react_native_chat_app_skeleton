@@ -12,6 +12,8 @@ export class ProfileSearchBar extends React.Component {
         this.state = {
             search: ''
         }
+
+        this.searchBarRef = React.createRef();
     }
     
     render() {
@@ -20,12 +22,17 @@ export class ProfileSearchBar extends React.Component {
         return (
             <View style={CommonStyles.header}>
                 <SearchBar
+                    ref={this.searchBarRef}
                     style={styles.searchBar}
                     placeholder='Type to search...'
                     onChangeText={this.updateSearch}
                     value={search}/>
             </View>
         );
+    }
+
+    showKeyboard() {
+        this.searchBarRef.current.focus();
     }
 
     updateSearch = (search) => {

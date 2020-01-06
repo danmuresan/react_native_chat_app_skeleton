@@ -32,7 +32,7 @@ export default class CallListView extends React.Component {
         return (
             <View style={CommonStyles.base}>
                 <CommonHeaderView pageTitle='Calls' />
-                <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center', textAlignVertical: 'center'}}>
+                <Text style={CommonStyles.centerVerticalHorizontalText}>
                     No call data available yet!
                 </Text>
             </View>

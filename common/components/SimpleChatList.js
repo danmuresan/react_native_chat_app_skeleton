@@ -37,7 +37,7 @@ export default class SimpleChatList extends Component {
             return (
                 <View style={CommonStyles.base}>
                     <CommonHeaderView pageTitle='Chats' onSearchComplete={this.onFilterContacts} />
-                    <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center', textAlign: 'center', textAlignVertical: 'center'}}>
+                    <Text style={CommonStyles.centerVerticalHorizontalText}>
                         It looks like your contacts list is empty...
                     </Text>
                 </View>
@@ -55,7 +55,7 @@ export default class SimpleChatList extends Component {
                     renderItem={({ item }) => {
                         console.log(item);
                         return (
-                            <SimpleChatListItem avatarUri={item.imageUri} contactName={item.name} navigation={this.props.navigation}/>
+                            <SimpleChatListItem id={item.id} avatarUri={item.imageUri} contactName={item.name} navigation={this.props.navigation}/>
                         )
                 }}/>
             </View>

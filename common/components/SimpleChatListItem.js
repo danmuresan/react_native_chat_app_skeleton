@@ -37,7 +37,10 @@ export class SimpleChatListItem extends Component {
     }
 
     onItemClicked() {
-        this.props.navigation.navigate('ChatDetails');
+        this.props.navigation.navigate('ChatDetails', {
+            id: this.props.id,
+            name: this.props.contactName
+        });
     }
 }
 
