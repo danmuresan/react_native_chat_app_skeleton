@@ -31,6 +31,7 @@ export class ProfileSearchBar extends React.Component {
     updateSearch = (search) => {
         console.log('New search: ' + search)
         this.setState({ search });
+        this.props.onSearchComplete?.(search);
     }
 }
 

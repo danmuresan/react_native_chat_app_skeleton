@@ -20,12 +20,14 @@ export class CommonHeaderView extends React.Component {
         this.onNotificationsIconClicked = this.onNotificationsIconClicked.bind(this);
         this.onSearchIconClicked = this.onSearchIconClicked.bind(this);
         this.onProfileIconClicked = this.onProfileIconClicked.bind(this);
+        this.onSearchComplete = this.onSearchComplete.bind(this);
     }
 
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             if (this.state.isSearchActive) {
                 this.state.isSearchActive = false;
+                this.props.onSearchComplete(undefined);
                 this.setState(this.state);
                 return true;
             } else {
@@ -42,7 +44,7 @@ export class CommonHeaderView extends React.Component {
         if (this.state.isSearchActive) {
             return (
                 <View style={{width: '100%', backgroundColor: AppColors.appBrand}}>
-                    <ProfileSearchBar />
+                    <ProfileSearchBar onSearchComplete={this.onSearchComplete}/>
                 </View>          
             );
         }
@@ -57,6 +59,10 @@ export class CommonHeaderView extends React.Component {
                 rightComponent={<ClickableIconView iconName='search' iconColor={AppColors.buttonPrimary} onIconClicked={this.onSearchIconClicked} />}
             />            
         );
+    }
+
+    onSearchComplete(searchPhrase) {
+        this.props.onSearchComplete?.(searchPhrase);
     }
 
     onNotificationsIconClicked() {

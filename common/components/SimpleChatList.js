@@ -19,6 +19,8 @@ export default class SimpleChatList extends Component {
             isLoading: true,
             chatListData: []
         };
+
+        this.onFilterContacts = this.onFilterContacts.bind(this);
     }
 
     async componentDidMount() {
@@ -34,10 +36,20 @@ export default class SimpleChatList extends Component {
             )
         }
 
-        console.log('Preparing to load up list UI');
+        if (this.state.chatListData === undefined || this.state.chatListData.length === 0) {
+            return (
+                <View style={CommonStyles.base}>
+                    <CommonHeaderView pageTitle='Calls' />
+                    <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center', textAlignVertical: 'center'}}>
+                        It looks like your contacts list is empty...
+                    </Text>
+                </View>
+            )
+        }
+        console.log('Preparing to render chat list');
         return (
             <View style={CommonStyles.base}>
-                <CommonHeaderView pageTitle='Chats' />
+                <CommonHeaderView pageTitle='Chats' onSearchComplete={this.onFilterContacts} />
                 <FlatList
                     ItemSeparatorComponent={this.renderListItemSeparator}
                     style={styles.list}
@@ -61,10 +73,24 @@ export default class SimpleChatList extends Component {
           );
     };
 
+    onFilterContacts(searchPhrase) {
+        if (searchPhrase === undefined || searchPhrase === '' &&
+            this.state.chatListData !== this.originalChatListData) {
+            console.log('Clearing out search...');
+            this.state.chatListData = this.originalChatListData;
+        } else {
+            console.log('Attempting to filter contacts for search phrase: ' + searchPhrase);
+            this.state.chatListData = this.originalChatListData.filter(item => item.name.toLowerCase() === searchPhrase.toLowerCase() ||
+                                                item.name.toLowerCase().includes(searchPhrase.toLowerCase()));
+        }
+        
+        this.setState(this.state);
+    }
+
     async loadDataAsync() {
         // TODO: load up from somewhere
         await timeout(500);
-        this.state.chatListData = [
+        this.originalChatListData = [
             {id: 0, name: 'Ansu', imageUri: 'https://www.fcbarcelonanoticias.com/uploads/s1/11/67/29/2/ansu-fati-bakero.jpeg'},
             {id: 1, name: 'Carlos', imageUri: 'https://www.fcbarcelona.com/photo-resources/2019/10/23/ecde1c7a-c3c9-4e7f-b652-b747a870f697/C-PEREZ_players_BARCA_B.jpg?width=1200&height=750'},
             {id: 2, name: 'Antoine', imageUri: 'https://e0.365dm.com/19/12/768x432/skysports-antoine-griezmann_4856510.jpg?20191204155640'},
@@ -76,9 +102,9 @@ export default class SimpleChatList extends Component {
             {id: 7, name: 'Ivan', imageUri: 'https://e00-marca.uecdn.es/assets/multimedia/imagenes/2019/12/12/15761657836711.jpg'},
             {id: 7, name: 'Frankie', imageUri: 'https://www.fcbarcelona.com/photo-resources/2019/07/02/aa0a923b-e8d4-4eef-8319-81c71656b367/Fitxatges_DE_JONG_3200x2000_B.JPG?width=1200&height=750'},
             {id: 7, name: 'Clement', imageUri: 'https://www.fifaultimateteam.it/en/wp-content/uploads/2019/06/clement-lenglet.jpg'}
-
         ];
 
+        this.state.chatListData = this.originalChatListData;
         this.state.isLoading = false;
         console.log('Chat list data loaded ' + this.state.chatListData);
     }
