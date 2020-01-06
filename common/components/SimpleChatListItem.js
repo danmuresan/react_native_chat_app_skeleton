@@ -15,7 +15,7 @@ export class SimpleChatListItem extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.touchableListItem} onPressIn={this.onItemClicked}>
+            <TouchableOpacity style={styles.touchableListItem} onPress={this.onItemClicked} delayPressIn={50}>
                 <View style={styles.itemContainer}>
                     <Image 
                         style={styles.itemImage}

@@ -27,7 +27,7 @@ export class CommonHeaderView extends React.Component {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             if (this.state.isSearchActive) {
                 this.state.isSearchActive = false;
-                this.props.onSearchComplete(undefined);
+                this.onSearchComplete(undefined);
                 this.setState(this.state);
                 return true;
             } else {
