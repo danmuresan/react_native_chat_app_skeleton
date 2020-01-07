@@ -1,10 +1,9 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, Image, FlatList, TouchableWithoutFeedback, TouchableHighlight, Modal, StyleSheet, Dimensions } from 'react-native'
 import { CommonStyles }  from '../ui-helpers/CommonStyles' 
 import { AppColors } from '../ui-helpers/Colors';
 import { Divider, Icon } from 'react-native-elements';
 import { FullScreenLoadingSpinnerView } from './FullScreenLoadingSpinnerView';
-import { FlatList } from 'react-native-gesture-handler';
 import { TextWithIconTouchable } from './TextWithIconTouchable';
 import timeout from '../../utils/AsyncUtils'
 
@@ -22,10 +21,13 @@ export default class BaseContactView extends React.Component {
         this.state = {
             contactAvatarUri: this.props.contactAvatarUri,
             contactName: this.props.contactName,
-            viewState: ViewState.LOADING
+            viewState: ViewState.LOADING,
+            avatarChangeModalVisible: false
         };
 
         this.loadDataAsync = this.loadDataAsync.bind(this);
+        this.setModalVisible = this.setModalVisible.bind(this);
+        this.onProfileAvatarChangeRequested = this.onProfileAvatarChangeRequested.bind(this);
     }
 
     async componentDidMount() {
@@ -54,13 +56,40 @@ export default class BaseContactView extends React.Component {
             case ViewState.PROFILE:
                 return (
                     <View style={styles.container}>
-                        <Image
-                            style={styles.contactDetailsImage}
-                            source={{uri: this.state.contactAvatarUri}} />
-                        <Icon
-                            style={styles.changeAvatarIcon}
-                            name='add_a_photo'
-                            color={AppColors.appBrand}/>
+                        <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={this.state.avatarChangeModalVisible}
+                            onRequestClose={() => {
+                                console.log('Avatar change modal has been closed.');
+                                this.setModalVisible(false);
+                            }}>
+                            <View style={{marginTop: 22, flex: 1}}>
+                                <View style={CommonStyles.base}>
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                            this.setModalVisible(!this.state.avatarChangeModalVisible);
+                                        }}>
+                                        <Text style={CommonStyles.centerVerticalHorizontalText}>
+                                            TODO: Options For Changing Pick Here
+                                        </Text>
+                                    </TouchableHighlight>
+                                </View>
+                            </View>
+                        </Modal>
+                        <TouchableWithoutFeedback style={styles.changeAvatarContainer} onPress={this.onProfileAvatarChangeRequested}>
+                            <View>
+                                <Image
+                                    style={styles.contactDetailsImage}
+                                    source={{uri: this.state.contactAvatarUri}} />
+                                <View style={styles.changeAvatarIcon}>
+                                    <Icon
+                                        name='photo'
+                                        size={50}
+                                        color={AppColors.appBrand}/>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
                         <Text style={styles.contactItemName}>
                             {this.state.contactName}
                         </Text>
@@ -127,8 +156,17 @@ export default class BaseContactView extends React.Component {
         this.setState(this.state);
     }
 
+    setModalVisible(visible) {
+        this.setState({avatarChangeModalVisible: visible});
+    }
+
     onOptionSelected(option) {
         console.log("Option clicked " + option);
+    }    
+
+    onProfileAvatarChangeRequested() {
+        console.log("Profile avatar change requested. Opening menu...");
+        this.setModalVisible(true);
     }
 }
 
@@ -137,17 +175,23 @@ const styles = StyleSheet.create({
         height: 200,
         width: 200,
         borderRadius: 200,
+        flexDirection: 'row',
         alignSelf: "center",
         overflow: "hidden",
         borderWidth: 2,
         borderColor: AppColors.appBrand,
-        margin: 16
+        marginStart: 16,
+        marginEnd: 16,
+        marginTop: 16
     },
     contactItemName: {
         textAlign: 'center',
         fontWeight: "bold",
         color: AppColors.textColorPrimary,
-        margin: 8 
+        marginStart: 8,
+        marginEnd: 8,
+        marginBottom: 16,
+        marginTop: 16 
     },
     contactDetailsDivider: {
         color: AppColors.separatorListItemDefault,
@@ -160,7 +204,16 @@ const styles = StyleSheet.create({
     },
     changeAvatarIcon: {
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'center',
+        marginStart: 150,
+        marginTop: -45
+    },
+    changeAvatarContainer: {
+        width: 230, 
+        height: 230, 
+        flexDirection: 'row',
+        alignSelf: "center", 
+        overflow: "hidden"
     },
     list: {
         flex: 1,
