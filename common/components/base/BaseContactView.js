@@ -1,8 +1,12 @@
-import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
 import { CommonStyles }  from '../ui-helpers/CommonStyles' 
 import { AppColors } from '../ui-helpers/Colors';
 import { Divider, Icon } from 'react-native-elements';
+import { FullScreenLoadingSpinnerView } from './FullScreenLoadingSpinnerView';
+import { FlatList } from 'react-native-gesture-handler';
+import { TextWithIconTouchable } from './TextWithIconTouchable';
+import timeout from '../../utils/AsyncUtils'
 
 const ViewState = Object.freeze({
     LOADING: 1,
@@ -21,11 +25,11 @@ export default class BaseContactView extends React.Component {
             viewState: ViewState.LOADING
         };
 
-        this.loadData = this.loadData.bind(this);
+        this.loadDataAsync = this.loadDataAsync.bind(this);
     }
 
-    componentDidMount() {
-        this.loadData();
+    async componentDidMount() {
+        await this.loadDataAsync();
     }
 
     render() {
@@ -36,16 +40,15 @@ export default class BaseContactView extends React.Component {
         console.log('Loading up contact screen for state: ' + this.state.viewState);
         switch (this.state.viewState) {
             case ViewState.LOADING:
-                console.log('xxx')
                 return (
-                    <View style={CommonStyles.base}>
-                        <Text>Loading...</Text>
-                    </View>
+                    <FullScreenLoadingSpinnerView />
                 );
             case ViewState.ERROR:
                 return (
                     <View style={CommonStyles.base}>
-                        <Text>Something went wrong, please try again!</Text>
+                        <Text style={CommonStyles.centerVerticalHorizontalText}>
+                            Something went wrong, please try again!
+                        </Text>
                     </View>
                 );
             case ViewState.PROFILE:
@@ -62,6 +65,18 @@ export default class BaseContactView extends React.Component {
                             {this.state.contactName}
                         </Text>
                         <Divider style={styles.contactDetailsDivider}/>
+                        <FlatList 
+                            ItemSeparatorComponent={this.renderListItemSeparator}
+                            style={styles.list}
+                            data={this.props.contactOptionsList}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TextWithIconTouchable
+                                        text={item.optionText}
+                                        icon={item.optionIconName}
+                                        onPress={this.onOptionSelected(item)} />
+                                )
+                            }}/>
                     </View>
                 );
             case ViewState.CONTACT:
@@ -74,12 +89,35 @@ export default class BaseContactView extends React.Component {
                             {this.state.contactName}
                         </Text>
                         <Divider style={styles.contactDetailsDivider}/>
+                        <FlatList 
+                            ItemSeparatorComponent={this.renderListItemSeparator}
+                            style={styles.list}
+                            data={this.props.contactOptionsList}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TextWithIconTouchable
+                                        text={item.optionText}
+                                        iconName={item.optionIconName}
+                                        onPress={this.onOptionSelected(item)} />
+                                )
+                            }}/>
                     </View>
                 );
         }
     }
 
-    loadData() {
+    renderListItemSeparator = () => {
+        return (
+            <View
+              style={styles.listItemSeparator}
+            />
+          );
+    };
+
+    async loadDataAsync() {
+        // TODO: remove fake server calls through timeouts
+        await timeout(200);
+
         if (this.props.isProfileScreen) {
             this.state.viewState = ViewState.PROFILE;
         } else {
@@ -87,6 +125,10 @@ export default class BaseContactView extends React.Component {
         }
 
         this.setState(this.state);
+    }
+
+    onOptionSelected(option) {
+        console.log("Option clicked " + option);
     }
 }
 
@@ -111,8 +153,7 @@ const styles = StyleSheet.create({
         color: AppColors.separatorListItemDefault,
         width: '100%',
         height: 1,
-        marginTop: 8,
-        marginBottom: 8
+        marginTop: 8
     },
     container: {
         flex: 1
@@ -120,5 +161,14 @@ const styles = StyleSheet.create({
     changeAvatarIcon: {
         flexDirection: 'row',
         justifyContent: 'flex-end'
+    },
+    list: {
+        flex: 1,
+        width: Dimensions.get('window').width
+    },
+    listItemSeparator: {
+        height: 1,
+        width: "100%",
+        backgroundColor: AppColors.separatorListItemDefault
     }
 });

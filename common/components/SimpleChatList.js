@@ -36,7 +36,10 @@ export default class SimpleChatList extends Component {
         if (this.state.chatListData === undefined || this.state.chatListData.length === 0) {
             return (
                 <View style={CommonStyles.base}>
-                    <CommonHeaderView pageTitle='Chats' onSearchComplete={this.onFilterContacts} />
+                    <CommonHeaderView 
+                        navigation={this.props.navigation}
+                        pageTitle='Chats' 
+                        onSearchComplete={this.onFilterContacts} />
                     <Text style={CommonStyles.centerVerticalHorizontalText}>
                         It looks like your contacts list is empty...
                     </Text>
@@ -46,7 +49,10 @@ export default class SimpleChatList extends Component {
         console.log('Preparing to render chat list');
         return (
             <View style={CommonStyles.base}>
-                <CommonHeaderView pageTitle='Chats' onSearchComplete={this.onFilterContacts} />
+                <CommonHeaderView 
+                    navigation={this.props.navigation}
+                    pageTitle='Chats' 
+                    onSearchComplete={this.onFilterContacts} />
                 <FlatList
                     ItemSeparatorComponent={this.renderListItemSeparator}
                     style={styles.list}

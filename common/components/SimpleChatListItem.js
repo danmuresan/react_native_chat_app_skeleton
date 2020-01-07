@@ -30,7 +30,6 @@ export class SimpleChatListItem extends Component {
                             Some text goes here...
                         </Text>
                     </View>
-                    
                 </View>
             </TouchableOpacity>
         );

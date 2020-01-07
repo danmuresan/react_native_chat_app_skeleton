@@ -31,7 +31,9 @@ export default class CallListView extends React.Component {
         }
         return (
             <View style={CommonStyles.base}>
-                <CommonHeaderView pageTitle='Calls' />
+                <CommonHeaderView 
+                    pageTitle='Calls'
+                    navigation={this.props.navigation} />
                 <Text style={CommonStyles.centerVerticalHorizontalText}>
                     No call data available yet!
                 </Text>

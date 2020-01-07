@@ -79,7 +79,8 @@ export class CommonHeaderView extends React.Component {
     }
 
     onProfileIconClicked() {
-        console.log('Profile clicked...')
+        console.log('Profile clicked...');
+        this.props.navigation.navigate('Profile');
     }
 }
 
