@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { AppColors } from '../components/ui-helpers/Colors'
+import PropTypes from 'prop-types'
 
 export class SimpleChatListItem extends Component {
-
     constructor(props) {
         super(props);
+
+        this.propTypes = {
+            avatarUri: PropTypes.string,
+            contactName: PropTypes.string,
+            id: PropTypes.number
+        };
+
         console.log('Chat list item initialized for item ' + props.contactName 
             + ', imageUri:' + props.avatarUri 
             + ', navigation: ' + (props.navigation !== undefined));

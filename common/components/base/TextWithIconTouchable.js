@@ -1,11 +1,17 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { AppColors } from '../ui-helpers/Colors';
+import { AppColors } from '../ui-helpers/Colors'
+import PropTypes from 'prop-types'
 
 export class TextWithIconTouchable extends React.Component {
     constructor(props) {
         super(props);
+
+        this.propTypes = {
+            iconName: PropTypes.string,
+            text: PropTypes.string
+        };
 
         this.onPressed = this.onPressed.bind(this);
     }

@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text, Image, FlatList, TouchableWithoutFeedback, TouchableHighlight, Modal, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, Image, FlatList, TouchableWithoutFeedback, ToastAndroid, Modal, StyleSheet, Dimensions } from 'react-native'
 import { CommonStyles }  from '../ui-helpers/CommonStyles' 
 import { AppColors } from '../ui-helpers/Colors';
 import { Divider, Icon } from 'react-native-elements';
 import { FullScreenLoadingSpinnerView } from './FullScreenLoadingSpinnerView';
 import { TextWithIconTouchable } from './TextWithIconTouchable';
+import PropTypes from 'prop-types'
 import timeout from '../../utils/AsyncUtils'
 
 const ViewState = Object.freeze({
@@ -23,6 +24,13 @@ export default class BaseContactView extends React.Component {
             contactName: this.props.contactName,
             viewState: ViewState.LOADING,
             avatarChangeModalVisible: false
+        };
+
+        this.propTypes = {
+            contactAvatarUri: PropTypes.string,
+            contactName: PropTypes.string,
+            viewState: PropTypes.object,
+            avatarChangeModalVisible: PropTypes.bool
         };
 
         this.loadDataAsync = this.loadDataAsync.bind(this);
@@ -58,23 +66,40 @@ export default class BaseContactView extends React.Component {
                     <View style={styles.container}>
                         <Modal
                             animationType="slide"
-                            transparent={false}
+                            transparent={true}
                             visible={this.state.avatarChangeModalVisible}
                             onRequestClose={() => {
                                 console.log('Avatar change modal has been closed.');
                                 this.setModalVisible(false);
                             }}>
-                            <View style={{marginTop: 22, flex: 1}}>
-                                <View style={CommonStyles.base}>
-                                    <TouchableHighlight
-                                        onPress={() => {
-                                            this.setModalVisible(!this.state.avatarChangeModalVisible);
+                            <View style={styles.changeAvatarModal}>
+                                <TouchableWithoutFeedback onPress={() => this.onChangeAvatarOptionSelected(true)}>
+                                    <View style={{
+                                            flex: 1, 
+                                            flexDirection: 'row', 
+                                            padding: 16,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            alignContent: 'stretch'
                                         }}>
-                                        <Text style={CommonStyles.centerVerticalHorizontalText}>
-                                            TODO: Options For Changing Pick Here
-                                        </Text>
-                                    </TouchableHighlight>
-                                </View>
+                                        <Icon name="camera"/>
+                                        <Text style={{marginStart: 8}}>Take Photo</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <Divider style={styles.contactDetailsDivider} />
+                                <TouchableWithoutFeedback onPress={() => this.onChangeAvatarOptionSelected(false)}>
+                                    <View style={{
+                                            flex: 1, 
+                                            flexDirection: 'row', 
+                                            padding: 16,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            alignContent: 'stretch'
+                                        }}>
+                                        <Icon name="photo"/>
+                                        <Text style={{marginStart: 8}}>Choose From Gallery</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
                             </View>
                         </Modal>
                         <TouchableWithoutFeedback style={styles.changeAvatarContainer} onPress={this.onProfileAvatarChangeRequested}>
@@ -102,8 +127,8 @@ export default class BaseContactView extends React.Component {
                                 return (
                                     <TextWithIconTouchable
                                         text={item.optionText}
-                                        icon={item.optionIconName}
-                                        onPress={this.onOptionSelected(item)} />
+                                        iconName={item.optionIconName}
+                                        onPress={() => this.onOptionSelected(item)} />
                                 )
                             }}/>
                     </View>
@@ -127,7 +152,7 @@ export default class BaseContactView extends React.Component {
                                     <TextWithIconTouchable
                                         text={item.optionText}
                                         iconName={item.optionIconName}
-                                        onPress={this.onOptionSelected(item)} />
+                                        onPress={() => this.onOptionSelected(item)} />
                                 )
                             }}/>
                     </View>
@@ -161,12 +186,24 @@ export default class BaseContactView extends React.Component {
     }
 
     onOptionSelected(option) {
-        console.log("Option clicked " + option);
+        console.log("Option clicked " + option.optionText);
+        ToastAndroid.show('TODO: Option Clicked: ' + option.optionText, ToastAndroid.LONG);
     }    
 
     onProfileAvatarChangeRequested() {
         console.log("Profile avatar change requested. Opening menu...");
         this.setModalVisible(true);
+    }
+
+    onChangeAvatarOptionSelected(shouldOpenCamera) {
+        this.setModalVisible(!this.state.avatarChangeModalVisible);
+        console.log("lalala");
+
+        if (shouldOpenCamera) {
+            ToastAndroid.show('TODO: Should go to camera for taking new photo', ToastAndroid.LONG);
+        } else {
+            ToastAndroid.show('TODO: Should go to gallery for choosing new avatar', ToastAndroid.LONG);
+        }
     }
 }
 
@@ -214,6 +251,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: "center", 
         overflow: "hidden"
+    },
+    changeAvatarModal: {
+        flex: 0.3,
+        width: '100%',
+        flexDirection: 'column',
+        alignContent: 'center', 
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+        backgroundColor: AppColors.backgroundPrimary
     },
     list: {
         flex: 1,
