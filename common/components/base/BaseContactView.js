@@ -8,6 +8,7 @@ import { TextWithIconTouchable } from './TextWithIconTouchable';
 import PropTypes from 'prop-types'
 import timeout from '../../utils/AsyncUtils'
 import getLocalizedString from '../ui-helpers/strings/StringLocalizer'
+import { OptionType } from '../models/ContactOptionModel';
 
 const ViewState = Object.freeze({
     LOADING: 1,
@@ -187,8 +188,24 @@ export default class BaseContactView extends React.Component {
     }
 
     onOptionSelected(option) {
-        console.log("Option clicked " + option.optionText);
-        ToastAndroid.show('TODO: Option Clicked: ' + option.optionText, ToastAndroid.LONG);
+        console.log("Option clicked " + option.optionText + ', type: ' + option.optionType);
+        ToastAndroid.show('TODO: Option Clicked: ' + option.optionText + ', type: ' + option.optionType, ToastAndroid.LONG);
+
+        // TODO: navigate / act accordingly
+        switch (option.optionType) {
+            case OptionType.SETTINGS:
+                break;
+            case OptionType.SHARE_PROFILE:
+                break;
+            case OptionType.CHANGE_STATUS:
+                break;
+            case OptionType.SEND_MESSAGE:
+                break;
+            case OptionType.CALL:
+                break;
+            case OptionType.REMOVE_CONTACT:
+                break;
+        }
     }    
 
     onProfileAvatarChangeRequested() {

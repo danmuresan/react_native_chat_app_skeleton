@@ -1,6 +1,7 @@
 import React from 'react'
 import BaseContactView from './base/BaseContactView';
 import getLocalizedString from '../components/ui-helpers/strings/StringLocalizer'
+import { createContactOptionModel, OptionType } from './models/ContactOptionModel'
 
 export default class ProfileSettingsView extends React.Component {
     render() {
@@ -22,9 +23,9 @@ export default class ProfileSettingsView extends React.Component {
             profileFullName: "User Fullname",
             profileImageUri: 'https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png',
             profileOptions: [
-                {optionText: getLocalizedString('ChangeStatusLabel'), optionIconName: "adjust"},
-                {optionText: getLocalizedString('ShareProfileLabel'), optionIconName: "share"},
-                {optionText: getLocalizedString('SettingsLabel'), optionIconName: "settings"}
+                createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.CHANGE_STATUS),
+                createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.SHARE_PROFILE),
+                createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.SETTINGS)
             ]
         }
     }
