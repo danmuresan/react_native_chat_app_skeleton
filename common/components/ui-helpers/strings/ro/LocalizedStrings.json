@@ -1,0 +1,17 @@
+{
+    "ChatsTabTitle": "Conversatii",
+    "CallsTabTitle": "Apeluri",
+    "ContactListEmptyLabel" : "Se pare ca lista de contacte este goala...",
+    "NoCallDataLabel": "Nu sunt date despre apeluri momentan!",
+    "LoginTitle": "Autentificare",
+    "SendMessageLabel": "Trimite Mesaj",
+    "PlaceCallLabel": "Apeleaza",
+    "RemoveContactLabel": "Sterge Contactul",
+    "ChangeStatusLabel": "Schimba Status-ul",
+    "ShareProfileLabel": "Distribuie Profilul",
+    "SettingsLabel": "Setari",
+    "ChooseGalleryLabel": "Alege din Galerie",
+    "TakePhotoLabel": "Aparat Foto",
+    "TypeToSearchLabel": "Tasteaza pentru a incepe cautarea...",
+    "GenericErrorLabel": "A aparut o eroare. Va rugam reincercati!"
+}

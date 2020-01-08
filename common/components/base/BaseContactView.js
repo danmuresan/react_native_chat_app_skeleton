@@ -7,6 +7,7 @@ import { FullScreenLoadingSpinnerView } from './FullScreenLoadingSpinnerView';
 import { TextWithIconTouchable } from './TextWithIconTouchable';
 import PropTypes from 'prop-types'
 import timeout from '../../utils/AsyncUtils'
+import getLocalizedString from '../ui-helpers/strings/StringLocalizer'
 
 const ViewState = Object.freeze({
     LOADING: 1,
@@ -57,7 +58,7 @@ export default class BaseContactView extends React.Component {
                 return (
                     <View style={CommonStyles.base}>
                         <Text style={CommonStyles.centerVerticalHorizontalText}>
-                            Something went wrong, please try again!
+                            {getLocalizedString('GenericErrorLabel')}
                         </Text>
                     </View>
                 );
@@ -83,7 +84,7 @@ export default class BaseContactView extends React.Component {
                                             alignContent: 'stretch'
                                         }}>
                                         <Icon name="camera"/>
-                                        <Text style={{marginStart: 8}}>Take Photo</Text>
+                                        <Text style={{marginStart: 8}}>{getLocalizedString('TakePhotoLabel')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <Divider style={styles.contactDetailsDivider} />
@@ -97,7 +98,7 @@ export default class BaseContactView extends React.Component {
                                             alignContent: 'stretch'
                                         }}>
                                         <Icon name="photo"/>
-                                        <Text style={{marginStart: 8}}>Choose From Gallery</Text>
+                                        <Text style={{marginStart: 8}}>{getLocalizedString('ChooseGalleryLabel')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>

@@ -7,15 +7,13 @@
  */
 
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native'
+import { NativeModules, Platform, AsyncStorage } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { getRootNavigator } from './common/navigation/NavigationUtils';
 import timeout from './common/utils/AsyncUtils';
-import { CommonStyles } from './common/components/ui-helpers/CommonStyles'
 import { FullScreenLoadingSpinnerView } from './common/components/base/FullScreenLoadingSpinnerView';
 
 export default class App extends React.Component {
-
   constructor(props) {
     super(props);
     console.disableYellowBox = true;
@@ -27,7 +25,9 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
+    // TODO: parallelize
     const isAuthenticated = await this.checkUserAuthenticatedAsync();
+    await this.getAndCacheCurrentLocaleAsync();
     this.setState({ isAuthenticated, isLoading: false });
   }
 
@@ -47,5 +47,34 @@ export default class App extends React.Component {
     console.log('Faking auth check...');
     await timeout(500);
     return true;
+  }
+
+  async getAndCacheCurrentLocaleAsync() {
+    try {
+      const localeItemKey = "LocaleItemKey";
+      const currentlyCachedLocale = await AsyncStorage.getItem(localeItemKey);
+      if (currentlyCachedLocale === undefined || currentlyCachedLocale === '') {
+        console.log('No cached locale yet...');
+        // TODO: either determine if locale changed or refetch locale on every app start!!
+        Platform.select({
+          ios: () => locale = NativeModules.SettingsManager.settings.AppleLocale, // "fr_FR"
+          android: () => locale = NativeModules.I18nManager.localeIdentifier    // "fr_FR"
+        });
+    
+        locale = locale.split('_')[0].toLowerCase();
+        console.log('Current locale: ' + locale);
+
+        if (locale !== undefined && locale !== '') {
+          console.log('Caching new locale');
+          AsyncStorage.setItem(locale);
+          return locale;
+        } else {
+          return undefined;
+        }
+      }
+    } catch(error) {
+      console.log("Something went wrong when trying to fetch the locale: " + error)
+      return undefined;
+    }
   }
 }

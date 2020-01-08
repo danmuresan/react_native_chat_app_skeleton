@@ -1,0 +1,17 @@
+{
+    "ChatsTabTitle": "Chats",
+    "CallsTabTitle": "Calls",
+    "ContactListEmptyLabel" : "It looks like your contacts list is empty...",
+    "NoCallDataLabel": "No call data available yet!",
+    "LoginTitle": "Login",
+    "SendMessageLabel": "Send Message",
+    "PlaceCallLabel": "Place Call",
+    "RemoveContactLabel": "Remove Contact",
+    "ChangeStatusLabel": "Change Status",
+    "ShareProfileLabel": "Share Profile",
+    "SettingsLabel": "Settings",
+    "ChooseGalleryLabel": "Choose from Gallery",
+    "TakePhotoLabel": "Take Photo",
+    "TypeToSearchLabel": "Type to search...",
+    "GenericErrorLabel": "Something went wrong. Please try again!"
+}

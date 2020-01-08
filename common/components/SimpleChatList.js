@@ -6,6 +6,7 @@ import { AppColors } from '../components/ui-helpers/Colors'
 import { CommonStyles } from '../components/ui-helpers/CommonStyles'
 import { FullScreenLoadingSpinnerView } from '../components/base/FullScreenLoadingSpinnerView'
 import { CommonHeaderView } from './base/CommonHeaderView';
+import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
 export default class SimpleChatList extends Component {
 
@@ -38,7 +39,7 @@ export default class SimpleChatList extends Component {
                 <View style={CommonStyles.base}>
                     <CommonHeaderView 
                         navigation={this.props.navigation}
-                        pageTitle='Chats' 
+                        pageTitle={getLocalizedString('ChatsTabTitle')}
                         onSearchComplete={this.onFilterContacts} />
                     <Text style={CommonStyles.centerVerticalHorizontalText}>
                         It looks like your contacts list is empty...
@@ -51,7 +52,7 @@ export default class SimpleChatList extends Component {
             <View style={CommonStyles.base}>
                 <CommonHeaderView 
                     navigation={this.props.navigation}
-                    pageTitle='Chats' 
+                    pageTitle={getLocalizedString('ChatsTabTitle')}
                     onSearchComplete={this.onFilterContacts} />
                 <FlatList
                     ItemSeparatorComponent={this.renderListItemSeparator}

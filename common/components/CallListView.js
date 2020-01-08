@@ -1,11 +1,10 @@
 import React from 'react'
-import { View, Text, ActivityIndicator } from 'react-native'
-import { Header } from 'react-native-elements';
-import { AppColors } from '../components/ui-helpers/Colors'
+import { View, Text } from 'react-native'
 import { CommonStyles } from '../components/ui-helpers/CommonStyles'
 import timeout from '../utils/AsyncUtils'
 import { FullScreenLoadingSpinnerView } from '../components/base/FullScreenLoadingSpinnerView'
 import { CommonHeaderView } from './base/CommonHeaderView';
+import getLocalizedString from '../components/ui-helpers/strings/StringLocalizer'
 
 export default class CallListView extends React.Component {
 
@@ -32,10 +31,10 @@ export default class CallListView extends React.Component {
         return (
             <View style={CommonStyles.base}>
                 <CommonHeaderView 
-                    pageTitle='Calls'
+                    pageTitle={getLocalizedString('Calls')}
                     navigation={this.props.navigation} />
                 <Text style={CommonStyles.centerVerticalHorizontalText}>
-                    No call data available yet!
+                    {getLocalizedString('NoCallDataLabel')}
                 </Text>
             </View>
         )

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Button, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Button } from 'react-native'
 import timeout from '../utils/AsyncUtils';
 import { CommonStyles } from '../components/ui-helpers/CommonStyles'
+import getLocalizedString from '../components/ui-helpers/strings/StringLocalizer'
 
 export default class Login extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class Login extends Component {
     return (
       <View style={CommonStyles.base}>
         <Button
-          title='Login'
+          title={getLocalizedString('LoginTitle')}
           onPress={this.onLogin}/>
       </View>
     );
