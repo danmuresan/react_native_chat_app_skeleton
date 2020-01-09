@@ -12,6 +12,7 @@ export default class ProfileSettingsView extends React.Component {
         return (
             <BaseContactView 
                 isProfileScreen={true}
+                navigation={this.props.navigation}
                 loadDataTask={profileData.profileFetchPromise}
                 contactOptionsList={profileData.profileOptions}/>
         );

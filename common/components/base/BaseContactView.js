@@ -38,6 +38,7 @@ export default class BaseContactView extends React.Component {
         this.loadDataAsync = this.loadDataAsync.bind(this);
         this.setModalVisible = this.setModalVisible.bind(this);
         this.onProfileAvatarChangeRequested = this.onProfileAvatarChangeRequested.bind(this);
+        this.onOptionSelected = this.onOptionSelected.bind(this);
     }
 
     async componentDidMount() {
@@ -197,6 +198,7 @@ export default class BaseContactView extends React.Component {
         // TODO: navigate / act accordingly
         switch (option.optionType) {
             case OptionType.SETTINGS:
+                this.props.navigation.navigate('Settings');
                 break;
             case OptionType.SHARE_PROFILE:
                 break;
