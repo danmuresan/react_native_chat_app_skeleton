@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SimpleChatList from '../components/SimpleChatList';
 import ProfileSettingsView from '../components/ProfileSettingsView'
 import SettingsView from '../components/SettingsView'
+import ConversationView from '../components/ConversationView'
 
 const ChatTabNavigator = createStackNavigator({
   ChatList: {
@@ -24,6 +25,12 @@ const ChatTabNavigator = createStackNavigator({
     screen: SettingsView,
     navigationOptions: {
       headerTitle: 'Settings'
+    }
+  },
+  Conversation: {
+    screen: ConversationView,
+    navigationOptions: {
+      headerTitle: 'Chat History'
     }
   }
 },

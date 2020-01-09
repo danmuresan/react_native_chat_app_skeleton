@@ -43,6 +43,8 @@ export class SimpleChatListItem extends Component {
     }
 
     onItemClicked() {
+        // TODO: navigate to conversation when clicking on the item,
+        // to ChatDetails only when clicking on contact icon
         this.props.navigation.navigate('ChatDetails', {
             id: this.props.id,
             name: this.props.contactName,

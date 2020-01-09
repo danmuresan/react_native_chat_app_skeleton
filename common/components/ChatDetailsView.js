@@ -7,6 +7,7 @@ export default class ChatDetailsView extends React.Component {
     render() {
         const contactItemName = this.props.navigation.getParam('name', '???');
         const contactItemImageUri = this.props.navigation.getParam('avatarUri', undefined);
+        const contactId = this.props.navigation.getParam('id', undefined);
         const contactOptions = [
             createContactOptionModel(getLocalizedString('SendMessageLabel'), "message", OptionType.SEND_MESSAGE),
             createContactOptionModel(getLocalizedString('PlaceCallLabel'), "call", OptionType.CALL),
@@ -17,6 +18,8 @@ export default class ChatDetailsView extends React.Component {
         
         return (
             <BaseContactView isProfileScreen={false}
+                             navigation={this.props.navigation}
+                             contactId={contactId}
                              contactAvatarUri={contactItemImageUri}
                              contactName={contactItemName}
                              contactOptionsList={contactOptions}/>
