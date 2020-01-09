@@ -24,8 +24,8 @@ export default class ProfileSettingsView extends React.Component {
             profileImageUri: 'https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png',
             profileOptions: [
                 createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.CHANGE_STATUS),
-                createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.SHARE_PROFILE),
-                createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.SETTINGS)
+                createContactOptionModel(getLocalizedString('ShareProfileLabel'), "share", OptionType.SHARE_PROFILE),
+                createContactOptionModel(getLocalizedString('SettingsLabel'), "settings", OptionType.SETTINGS)
             ]
         }
     }
