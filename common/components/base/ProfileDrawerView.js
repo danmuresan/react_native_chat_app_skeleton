@@ -1,15 +1,15 @@
 import React from 'react'
 import { TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { AppColors } from '../ui-helpers/Colors';
+import { AppConstants } from '../../utils/AppConstants'
 
 export class ProfileDrawerView extends React.Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
             // TODO: default (should be based on some API call)
-            imageUri: 'https://www.pngfind.com/pngs/m/110-1102775_download-empty-profile-hd-png-download.png'
+            imageUri: AppConstants.DefaultProfileImageUri
         }
     }
 

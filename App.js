@@ -10,7 +10,7 @@ import React from 'react';
 import { NativeModules, Platform, AsyncStorage } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { getRootNavigator } from './common/navigation/NavigationUtils';
-import timeout from './common/utils/AsyncUtils';
+import MockService from './common/services/MockService'
 import { FullScreenLoadingSpinnerView } from './common/components/base/FullScreenLoadingSpinnerView';
 
 export default class App extends React.Component {
@@ -26,7 +26,8 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     // TODO: parallelize
-    const isAuthenticated = await this.checkUserAuthenticatedAsync();
+    console.log('App booting up, preparing to check user authentication...')
+    const isAuthenticated = await MockService.checkUserAuthenticatedAsync();
     await this.getAndCacheCurrentLocaleAsync();
     this.setState({ isAuthenticated, isLoading: false });
   }
@@ -40,13 +41,6 @@ export default class App extends React.Component {
 
     const AppContainer = createAppContainer(getRootNavigator(this.state.isAuthenticated));
     return <AppContainer />;
-  }
-
-  async checkUserAuthenticatedAsync() {
-    // TODO: via some AuthService go to some API and fetch token
-    console.log('Faking auth check...');
-    await timeout(500);
-    return true;
   }
 
   async getAndCacheCurrentLocaleAsync() {

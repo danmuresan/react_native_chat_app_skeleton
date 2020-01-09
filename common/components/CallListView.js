@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { CommonStyles } from '../components/ui-helpers/CommonStyles'
-import timeout from '../utils/AsyncUtils'
+import MockService from '../services/MockService'
 import { FullScreenLoadingSpinnerView } from '../components/base/FullScreenLoadingSpinnerView'
 import { CommonHeaderView } from './base/CommonHeaderView';
 import getLocalizedString from '../components/ui-helpers/strings/StringLocalizer'
@@ -41,8 +41,7 @@ export default class CallListView extends React.Component {
     }
 
     async loadDataAsync() {
-         // TODO: load up from somewhere
-         await timeout(200);    
+         await MockService.loadCallListAsync();  
          this.state.isLoading = false;    
     }
 }

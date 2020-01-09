@@ -6,7 +6,6 @@ import { Divider, Icon } from 'react-native-elements';
 import { FullScreenLoadingSpinnerView } from './FullScreenLoadingSpinnerView';
 import { TextWithIconTouchable } from './TextWithIconTouchable';
 import PropTypes from 'prop-types'
-import timeout from '../../utils/AsyncUtils'
 import getLocalizedString from '../ui-helpers/strings/StringLocalizer'
 import { OptionType } from '../models/ContactOptionModel';
 
@@ -32,6 +31,7 @@ export default class BaseContactView extends React.Component {
             contactAvatarUri: PropTypes.string,
             contactName: PropTypes.string,
             viewState: PropTypes.object,
+            loadDataTask: PropTypes.func,
             avatarChangeModalVisible: PropTypes.bool
         };
 
@@ -171,8 +171,11 @@ export default class BaseContactView extends React.Component {
     };
 
     async loadDataAsync() {
-        // TODO: remove fake server calls through timeouts
-        await timeout(200);
+        if (this.props.loadDataTask) {
+            const data = await this.props.loadDataTask();
+            this.state.contactAvatarUri = data.contactAvatarUri
+            this.state.contactName = data.contactName
+        }
 
         if (this.props.isProfileScreen) {
             this.state.viewState = ViewState.PROFILE;
