@@ -13,5 +13,6 @@
     "ChooseGalleryLabel": "Choose from Gallery",
     "TakePhotoLabel": "Take Photo",
     "TypeToSearchLabel": "Type to search...",
-    "GenericErrorLabel": "Something went wrong. Please try again!"
+    "GenericErrorLabel": "Something went wrong. Please try again!",
+    "TypeMessageLabel": "Type message here..."
 }

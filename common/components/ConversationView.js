@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { CommonStyles } from './ui-helpers/CommonStyles'
 import { AppColors } from './ui-helpers/Colors'
+import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
 export default class ConversationView extends React.Component {
     render () {
@@ -13,7 +14,7 @@ export default class ConversationView extends React.Component {
                     Conversation History will go here...
                 </Text>
                 <View style={styles.messageComposerContainer}>
-                    <TextInput style={styles.messageComposer} />
+                    <TextInput placeholder={getLocalizedString("TypeMessageLabel")} style={styles.messageComposer} />
                     <View style={styles.actionIcons}>
                         <Icon size={40} marginStart={8} color={AppColors.appBrand} name='camera'/>
                         <Icon size={40} marginStart={8} color={AppColors.appBrand} name='keyboard-voice'/>
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     messageComposerContainer: {
         flex: 0.08,
         width: '100%',
-        paddingStart: 8,
+        paddingStart: 16,
         paddingEnd: 8,
         flexDirection: 'row'
     },
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 40,
         borderColor: AppColors.appBrand,
-        width: '70%',
+        width: '72%',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'stretch'
