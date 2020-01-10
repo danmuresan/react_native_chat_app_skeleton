@@ -1,9 +1,8 @@
-import { NativeModules, Platform } from 'react-native'
+import { AppConstants } from '../../../utils/AppConstants'
+import AppSessionCache from '../../../utils/AppSessionCache'
 
 const DefaultLocale = 'en';
-
 const SanitizedLocales = ['en', 'ro']
-
 const LocalizedStrings = {
     'en': require('./en/LocalizedStrings.json'),
     'ro': require('./ro/LocalizedStrings.json')
@@ -25,21 +24,12 @@ export default function getLocalizedString(stringKey) {
 }
 
 function getCurrentLocale() {
-    // TODO: actually have some sort of logic here for fetching the locale
-    let locale = DefaultLocale;
-    Platform.select({
-        ios: () => locale = NativeModules.SettingsManager.settings.AppleLocale, // "fr_FR"
-        android: () => locale = NativeModules.I18nManager.localeIdentifier    // "fr_FR"
-    });
-
-    // TODO: Fetch from AsyncStorage ?? 
-    locale = locale.split('_')[0].toLowerCase();
-    console.log('Current locale: ' + locale);
-    if (locale === undefined || locale === '' || !SanitizedLocales.includes(locale)) {
+    try {
+        return AppSessionCache.getItem(AppConstants.CurrentLocaleCacheItemKey, DefaultLocale);
+    } catch(err) {
+        console.log('Something went wrong while getting current locale, ' + err);
         return DefaultLocale;
     }
-
-    return locale;
 }
 
 function getLocalizedStringsForLocale(locale) {
