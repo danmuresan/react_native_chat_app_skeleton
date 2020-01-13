@@ -11,13 +11,13 @@ const AppSessionCache = {
 
     getItem(key, defaultValue) {
         try {
-            console.log('Looking up session cache for value with key ' + key)
+            //console.log('Looking up session cache for value with key ' + key)
             const cacheItem = cache.find(cacheItem => cacheItem.key === key);
             if (cacheItem) {
-                console.log('Session cache hit for value with key ' + key + '(value: ' + cacheItem.value + ')');
+                //console.log('Session cache hit for value with key ' + key + '(value: ' + cacheItem.value + ')');
                 return JSON.parse(cacheItem.value);
             } else {
-                console.log('Session cache miss for value with key ' + key + '. Returning default');
+                //console.log('Session cache miss for value with key ' + key + '. Returning default');
                 return defaultValue;
             }
         } catch(err) {

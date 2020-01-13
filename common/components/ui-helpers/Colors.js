@@ -8,7 +8,8 @@ const ColorsRaw = {
     darkGray1: '#9a9a9a',
     darkGray2: '#6a6a6a',
     darkGray3: '#5a5a5a',
-    darkGray4: '#2a2a2a'
+    darkGray4: '#2a2a2a',
+    lightGreen1: '#3FEE90'
 };
 
 export const AppColors = {
@@ -18,5 +19,6 @@ export const AppColors = {
     separatorListItemDefault: ColorsRaw.gray0,
     textColorPrimary: ColorsRaw.black,
     textColorSecondary: ColorsRaw.darkGray3,
-    bottomBarPrimary: ColorsRaw.darkGray2
+    bottomBarPrimary: ColorsRaw.darkGray2,
+    actionPrimary: ColorsRaw.lightGreen1
 };
