@@ -60,9 +60,12 @@ export default class SimpleChatList extends Component {
                     data={this.state.chatListData}
                     keyExtractor={(item) => { return item.id; }}
                     renderItem={({ item }) => {
-                        console.log(item);
                         return (
-                            <SimpleChatListItem id={item.id} avatarUri={item.imageUri} contactName={item.name} navigation={this.props.navigation}/>
+                            <SimpleChatListItem 
+                                id={item.id} 
+                                avatarUri={item.imageUri} 
+                                contactName={item.name} 
+                                navigation={this.props.navigation}/>
                         )
                 }}/>
             </View>
