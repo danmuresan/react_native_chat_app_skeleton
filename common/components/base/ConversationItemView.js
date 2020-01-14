@@ -14,28 +14,38 @@ export class ConversationItemView extends React.Component {
     renderChatBubble(isConversationPartner) {
         if (isConversationPartner) {
             return (
-                <View style={{flexDirection: 'row', 
-                              alignItems: 'center',
-                              justifyContent: 'flex-start',
-                              alignSelf: 'flex-start'}}>
-                    <Image 
-                        style={styles.bubbleImage}
-                        source={{uri: this.props.conversationPartnerAvatarUri}}/>
-                    <View style={styles.conversationPartnerMessageBubble}>
-                        <Text
-                            style={styles.conversationPartnerMessageBubbleText}>
-                            {this.props.messageContent}
-                        </Text>
+                <View>
+                    <View style={{flexDirection: 'row', 
+                                alignItems: 'center',
+                                justifyContent: 'flex-start',
+                                alignSelf: 'flex-start'}}>
+                        <Image 
+                            style={styles.bubbleImage}
+                            source={{uri: this.props.conversationPartnerAvatarUri}}/>
+                        <View style={styles.conversationPartnerMessageBubble}>
+                            <Text
+                                style={styles.conversationPartnerMessageBubbleText}>
+                                {this.props.messageContent}
+                            </Text>
+                        </View>
+                        <View style={{flex: 0.2}}/>
                     </View>
-                    <View style={{flex: 0.2}}/>
+                    <Text style={styles.coversationPartnerMessageTimestamp}>
+                        {this.props.messageTimestamp}
+                    </Text>
                 </View>
             );
         } else {
             return (
-                <View style={styles.currentUserMessageBubble}>
-                    <Text
-                        style={styles.currentUserMessageBubbleText}>
-                        {this.props.messageContent}
+                <View>
+                    <View style={styles.currentUserMessageBubble}>
+                        <Text
+                            style={styles.currentUserMessageBubbleText}>
+                            {this.props.messageContent}
+                        </Text>
+                    </View>
+                    <Text style={styles.currentUserMessageTimestamp}>
+                        {this.props.messageTimestamp}
                     </Text>
                 </View>
             );
@@ -97,5 +107,21 @@ const styles = StyleSheet.create({
         color: AppColors.backgroundPrimary,
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
+    },
+    currentUserMessageTimestamp: {
+        fontSize: 10,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        alignSelf: 'flex-end',
+        marginEnd: 16,
+        color: AppColors.textColorSecondary
+    },
+    coversationPartnerMessageTimestamp: {
+        fontSize: 10,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        alignSelf: 'flex-start',
+        marginStart: 55,
+        color: AppColors.textColorSecondary
     }
 })

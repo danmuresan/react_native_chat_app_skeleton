@@ -6,6 +6,8 @@ import { AppColors } from './ui-helpers/Colors'
 import { FullScreenLoadingSpinnerView } from './base/FullScreenLoadingSpinnerView'
 import { ConversationItemView } from './base/ConversationItemView'
 import { ConversationHeaderView } from './base/ConversationHeaderView'
+import { DateTimeUtils } from '../utils/DateTimeUtils'
+import { MiscUtils } from '../utils/MiscUtils'
 import MockService from '../services/MockService'
 import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
@@ -24,6 +26,14 @@ export default class ConversationView extends React.Component {
         this.onKeyboardHidden = this.onKeyboardHidden.bind(this);
         this.onMessageComposerFocused = this.onMessageComposerFocused.bind(this);
         this.onSendMessage = this.onSendMessage.bind(this);
+
+        
+        // TODO: remove mock stuff
+        this.messagesUntilMockReply = 2;
+        this.mockReplies = ['Haha, I know what you are saying, can totally relate to it :))',
+                            'Nope, I completely disagree and I believe you realy suck sometimes :/',
+                            'Funny, but try again cuz Im not really laughing',
+                            'Yes, sure']
     }
 
     async componentDidMount() {
@@ -105,7 +115,8 @@ export default class ConversationView extends React.Component {
                             <ConversationItemView 
                                 isConversationPartner={!item.isCurrentlyLoggedInUserMessage} 
                                 conversationPartnerAvatarUri={contactAvatarUri}
-                                messageContent={item.messageContent} />
+                                messageContent={item.messageContent}
+                                messageTimestamp={DateTimeUtils.pretifyDateForMessageBubble(item.timestamp)} />
                         );
                     }}/>
             );
@@ -139,8 +150,6 @@ export default class ConversationView extends React.Component {
     }
 
     async loadConversationHistoryAsync() {
-        console.log('xxxx')
-
         this.state.conversationHistoryList = await MockService.fetchMockMessagesAsync();
         //this.state.conversationHistoryList = []; // TODO: ....
         this.state.isLoading = false;
@@ -192,8 +201,26 @@ export default class ConversationView extends React.Component {
     processAndSendMessage(text) {
         this.state.conversationHistoryList.push({
             messageContent: text,
+            timestamp: new Date(),
             isCurrentlyLoggedInUserMessage: true
         });
+
+        this.updateMockReplyLogic();
+    }
+
+    updateMockReplyLogic() {
+        this.messagesUntilMockReply--;
+        if (this.messagesUntilMockReply === 0) {
+            const mockReply = this.mockReplies[MiscUtils.randomNumberInRange(0, 3)];
+            console.log('Mocking a reply message (' + mockReply + ')')
+            this.state.conversationHistoryList.push({
+                messageContent: mockReply,
+                timestamp: new Date(),
+                isCurrentlyLoggedInUserMessage: false
+            });
+
+            this.messagesUntilMockReply = 2;
+        }
     }
 }
 
