@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native'
-import { Icon } from 'react-native-elements'
 import { AppColors } from '../ui-helpers/Colors'
 
 export class ConversationItemView extends React.Component {
@@ -15,7 +14,10 @@ export class ConversationItemView extends React.Component {
     renderChatBubble(isConversationPartner) {
         if (isConversationPartner) {
             return (
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', 
+                              alignItems: 'center',
+                              justifyContent: 'flex-start',
+                              alignSelf: 'flex-start'}}>
                     <Image 
                         style={styles.bubbleImage}
                         source={{uri: this.props.conversationPartnerAvatarUri}}/>
@@ -25,17 +27,16 @@ export class ConversationItemView extends React.Component {
                             {this.props.messageContent}
                         </Text>
                     </View>
+                    <View style={{flex: 0.2}}/>
                 </View>
             );
         } else {
             return (
-                <View style={{flexDirection: 'column-reverse'}}>
-                    <View style={styles.currentUserMessageBubble}>
-                        <Text
-                            style={styles.currentUserMessageBubbleText}>
-                            {this.props.messageContent}
-                        </Text>
-                    </View>
+                <View style={styles.currentUserMessageBubble}>
+                    <Text
+                        style={styles.currentUserMessageBubbleText}>
+                        {this.props.messageContent}
+                    </Text>
                 </View>
             );
         }
@@ -59,10 +60,12 @@ const styles = StyleSheet.create({
         margin: 8
     },
     conversationPartnerMessageBubble: {
-        flex: 1,
+        flex: 0.8,
         marginEnd: 8,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'flex-start',
+        alignSelf: 'auto',
         backgroundColor: AppColors.backgroundSecondary,
         borderRadius: 15, 
         borderWidth: 1,
@@ -71,15 +74,18 @@ const styles = StyleSheet.create({
     conversationPartnerMessageBubbleText: {
         flexShrink: 1,
         padding: 8,
+        margin: 2,
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
     },
     currentUserMessageBubble: {
         flex: 1,
-        marginStart: 8,
+        marginStart: 48,
         marginEnd: 8,
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignSelf: 'flex-end',
         backgroundColor: AppColors.appBrand,
         borderRadius: 15,
         borderWidth: 2,
@@ -87,6 +93,7 @@ const styles = StyleSheet.create({
     },
     currentUserMessageBubbleText: {
         padding: 8,
+        margin: 2,
         color: AppColors.backgroundPrimary,
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
