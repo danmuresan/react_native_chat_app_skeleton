@@ -25,17 +25,17 @@ export class ProfileSearchBar extends React.Component {
                     ref={this.searchBarRef}
                     style={styles.searchBar}
                     placeholder='Type to search...'
-                    onChangeText={this.updateSearch}
+                    onChangeText={this._updateSearch}
                     value={search}/>
             </View>
         );
     }
 
-    showKeyboard() {
+    _showKeyboard() {
         this.searchBarRef.current.focus();
     }
 
-    updateSearch = (search) => {
+    _updateSearch = (search) => {
         console.log('New search: ' + search)
         this.setState({ search });
         this.props.onSearchComplete?.(search);

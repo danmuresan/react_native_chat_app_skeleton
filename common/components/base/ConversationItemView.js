@@ -8,12 +8,12 @@ export class ConversationItemView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.renderChatBubble(this.props.isConversationPartner)}
+                {this._renderChatBubble(this.props.isConversationPartner)}
             </View>
         );
     }
 
-    renderChatBubble(isConversationPartner) {
+    _renderChatBubble(isConversationPartner) {
         if (isConversationPartner) {
             return (
                 <View>
@@ -50,14 +50,14 @@ export class ConversationItemView extends React.Component {
                         <Text style={styles.currentUserMessageTimestamp}>
                             {this.props.messageTimestamp}
                         </Text>
-                        {this.renderMessageReceiptStatus(this.props.messageReceiptStatus)}
+                        {this._renderMessageReceiptStatus(this.props.messageReceiptStatus)}
                     </View>
                 </View>
             );
         }
     }
 
-    renderMessageReceiptStatus(status) {
+    _renderMessageReceiptStatus(status) {
         if (status === MessageReceiptState.READ)
             return (
                 <Icon name='check' color={AppColors.textColorSecondary} size={12} marginStart={-8} marginEnd={16} />

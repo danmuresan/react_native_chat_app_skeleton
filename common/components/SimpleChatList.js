@@ -18,12 +18,12 @@ export default class SimpleChatList extends Component {
             chatListData: []
         };
 
-        this.onFilterContacts = this.onFilterContacts.bind(this);
+        this._onFilterContacts = this._onFilterContacts.bind(this);
     }
 
     async componentDidMount() {
         console.log('Loading up chat list data...')
-        await this.loadDataAsync()
+        await this._loadDataAsync()
         this.setState(this.state);
     }
     
@@ -40,7 +40,7 @@ export default class SimpleChatList extends Component {
                     <CommonHeaderView 
                         navigation={this.props.navigation}
                         pageTitle={getLocalizedString('ChatsTabTitle')}
-                        onSearchComplete={this.onFilterContacts} />
+                        onSearchComplete={this._onFilterContacts} />
                     <Text style={CommonStyles.centerVerticalHorizontalText}>
                         It looks like your contacts list is empty...
                     </Text>
@@ -53,9 +53,9 @@ export default class SimpleChatList extends Component {
                 <CommonHeaderView 
                     navigation={this.props.navigation}
                     pageTitle={getLocalizedString('ChatsTabTitle')}
-                    onSearchComplete={this.onFilterContacts} />
+                    onSearchComplete={this._onFilterContacts} />
                 <FlatList
-                    ItemSeparatorComponent={this.renderListItemSeparator}
+                    ItemSeparatorComponent={this._renderListItemSeparator}
                     style={styles.list}
                     data={this.state.chatListData}
                     keyExtractor={(item) => { return item.id; }}
@@ -72,7 +72,7 @@ export default class SimpleChatList extends Component {
         )
     }
 
-    renderListItemSeparator = () => {
+    _renderListItemSeparator = () => {
         return (
             <View
               style={styles.listItemSeparator}
@@ -80,7 +80,7 @@ export default class SimpleChatList extends Component {
           );
     };
 
-    onFilterContacts(searchPhrase) {
+    _onFilterContacts(searchPhrase) {
         if (searchPhrase === undefined || searchPhrase === '' &&
             this.state.chatListData !== this.originalChatListData) {
             console.log('Clearing out search...');
@@ -90,13 +90,12 @@ export default class SimpleChatList extends Component {
             this.state.chatListData = this.originalChatListData
                                           .filter(item => item.name.toLowerCase() === searchPhrase.toLowerCase() ||
                                                   item.name.toLowerCase().includes(searchPhrase.toLowerCase()));
-            console.log("NEW LIST SIZE " + this.state.chatListData.length);
         }
         
         this.setState(this.state);
     }
 
-    async loadDataAsync() {
+    async _loadDataAsync() {
         this.originalChatListData = await MockService.fetchContactListAsync();
         this.state.chatListData = this.originalChatListData;
         this.state.isLoading = false;

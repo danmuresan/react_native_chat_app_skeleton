@@ -6,7 +6,7 @@ import MockService from '../services/MockService'
 
 export default class ProfileSettingsView extends React.Component {
     render() {
-        const profileData = this.getProfileData();
+        const profileData = this._getProfileData();
         console.log('Preparing to open profile page for profile with data ' + profileData);
 
         return (
@@ -18,10 +18,10 @@ export default class ProfileSettingsView extends React.Component {
         );
     }
 
-    getProfileData() {
+    _getProfileData() {
         // TODO: fetch actual data
         return {
-            profileFetchPromise: this.prepareProfileDataAsync,
+            profileFetchPromise: this._prepareProfileDataAsync,
             profileOptions: [
                 createContactOptionModel(getLocalizedString('ChangeStatusLabel'), "adjust", OptionType.CHANGE_STATUS),
                 createContactOptionModel(getLocalizedString('ShareProfileLabel'), "share", OptionType.SHARE_PROFILE),
@@ -30,7 +30,7 @@ export default class ProfileSettingsView extends React.Component {
         }
     }
 
-    async prepareProfileDataAsync() {
+    async _prepareProfileDataAsync() {
         const profileData = await MockService.fetchProfileAsync();
         return {
             contactAvatarUri: profileData.profileImageUri,

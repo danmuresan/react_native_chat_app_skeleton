@@ -13,12 +13,12 @@ export class TextWithIconTouchable extends React.Component {
             text: PropTypes.string
         };
 
-        this.onPressed = this.onPressed.bind(this);
+        this._onPressed = this._onPressed.bind(this);
     }
 
     render() {
         return (
-            <TouchableOpacity onPress={this.onPressed}>
+            <TouchableOpacity onPress={this._onPressed}>
                 <View style={styles.container}>
                     <View style={styles.icon}>
                         <Icon name={this.props.iconName}/>
@@ -31,7 +31,7 @@ export class TextWithIconTouchable extends React.Component {
         );
     }
 
-    onPressed() {
+    _onPressed() {
         this.props.onPress?.();
     }
 }

@@ -18,7 +18,7 @@ export default class CallListView extends React.Component {
     }
 
     async componentDidMount() {
-        await this.loadDataAsync();
+        await this._loadDataAsync();
         this.setState(this.state);
     }
 
@@ -40,7 +40,7 @@ export default class CallListView extends React.Component {
         )
     }
 
-    async loadDataAsync() {
+    async _loadDataAsync() {
          await MockService.loadCallListAsync();  
          this.state.isLoading = false;    
     }

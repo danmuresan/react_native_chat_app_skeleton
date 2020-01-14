@@ -7,15 +7,17 @@ export class ConversationHeaderView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.onBackButtonPressed()}>
+                <TouchableOpacity onPress={() => this._onBackButtonPressed()}>
                     <Icon 
                         name="keyboard-backspace" 
                         margin={8}
                         color={AppColors.backgroundSecondary} />
                 </TouchableOpacity>
-                <Image 
-                    style={styles.avatar}
-                    source={{uri: this.props.contactAvatarUri}} />
+                <TouchableOpacity onPress={() => this._onAvatarIconPressed()}>
+                    <Image 
+                        style={styles.avatar}
+                        source={{uri: this.props.contactAvatarUri}} />
+                </TouchableOpacity>
                 <Text style={styles.name}>
                     {this.props.contactName}
                 </Text>
@@ -23,10 +25,20 @@ export class ConversationHeaderView extends React.Component {
         );
     }
 
-    onBackButtonPressed() {
+    _onBackButtonPressed() {
         console.log('Back navigation requested');   
         if (this.props.navigation) {
             this.props.navigation.pop();
+        }
+    }
+
+    _onAvatarIconPressed() {
+        if (this.props.navigation) {
+            this.props.navigation.navigate('ChatDetails', {
+                id: this.props.contactId,
+                name: this.props.contactName,
+                avatarUri: this.props.contactAvatarUri
+            });
         }
     }
 }

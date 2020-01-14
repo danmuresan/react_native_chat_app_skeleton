@@ -18,18 +18,17 @@ export class CommonHeaderView extends React.Component {
 
         this.searchBarRef = React.createRef();
 
-        // without binding, we don't have state in the callbacks
-        this.onNotificationsIconClicked = this.onNotificationsIconClicked.bind(this);
-        this.onSearchIconClicked = this.onSearchIconClicked.bind(this);
-        this.onProfileIconClicked = this.onProfileIconClicked.bind(this);
-        this.onSearchComplete = this.onSearchComplete.bind(this);
+        this._onNotificationsIconClicked = this._onNotificationsIconClicked.bind(this);
+        this._onSearchIconClicked = this._onSearchIconClicked.bind(this);
+        this._onProfileIconClicked = this._onProfileIconClicked.bind(this);
+        this._onSearchComplete = this._onSearchComplete.bind(this);
     }
 
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             if (this.state.isSearchActive) {
                 this.state.isSearchActive = false;
-                this.onSearchComplete(undefined);
+                this._onSearchComplete(undefined);
                 this.setState(this.state);
                 return true;
             } else {
@@ -46,7 +45,7 @@ export class CommonHeaderView extends React.Component {
         if (this.state.isSearchActive) {
             return (
                 <View style={{width: '100%', backgroundColor: AppColors.appBrand}}>
-                    <ProfileSearchBar ref={this.searchBarRef} onSearchComplete={this.onSearchComplete}/>
+                    <ProfileSearchBar ref={this.searchBarRef} onSearchComplete={this._onSearchComplete}/>
                 </View>          
             );
         }
@@ -56,29 +55,29 @@ export class CommonHeaderView extends React.Component {
                 style={CommonStyles.header}
                 placement='center'
                 statusBarProps={{ barStyle: 'light-content' }}
-                leftComponent={<ClickableIconView iconName='notifications' iconColor={AppColors.buttonPrimary} onIconClicked={this.onNotificationsIconClicked} />}
-                centerComponent={<ProfileDrawerView onProfileClicked={this.onProfileIconClicked}/>}
-                rightComponent={<ClickableIconView iconName='search' iconColor={AppColors.buttonPrimary} onIconClicked={this.onSearchIconClicked} />}
+                leftComponent={<ClickableIconView iconName='notifications' iconColor={AppColors.buttonPrimary} onIconClicked={this._onNotificationsIconClicked} />}
+                centerComponent={<ProfileDrawerView onProfileClicked={this._onProfileIconClicked}/>}
+                rightComponent={<ClickableIconView iconName='search' iconColor={AppColors.buttonPrimary} onIconClicked={this._onSearchIconClicked} />}
             />            
         );
     }
 
-    onSearchComplete(searchPhrase) {
+    _onSearchComplete(searchPhrase) {
         this.props.onSearchComplete?.(searchPhrase);
     }
 
-    onNotificationsIconClicked() {
+    _onNotificationsIconClicked() {
         console.log('Notifications clicked...');
     }
 
-    onSearchIconClicked() {
+    _onSearchIconClicked() {
         console.log('Search clicked...');
         this.state.isSearchActive = true;
         // this.searchBarRef.current.showKeyboard();
         this.setState(this.state);
     }
 
-    onProfileIconClicked() {
+    _onProfileIconClicked() {
         console.log('Profile clicked...');
         this.props.navigation.navigate('Profile');
     }

@@ -29,10 +29,9 @@ export default class ConversationView extends React.Component {
             isLoading: false
         }
 
-        this.onKeyboardHidden = this.onKeyboardHidden.bind(this);
-        this.onMessageComposerFocused = this.onMessageComposerFocused.bind(this);
-        this.onSendMessage = this.onSendMessage.bind(this);
-
+        this._onKeyboardHidden = this._onKeyboardHidden.bind(this);
+        this._onMessageComposerFocused = this._onMessageComposerFocused.bind(this);
+        this._onSendMessage = this._onSendMessage.bind(this);
         
         // TODO: remove mock stuff
         this.messagesUntilMockReply = 2;
@@ -47,15 +46,15 @@ export default class ConversationView extends React.Component {
         this.setState(this.state);
         this.keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
-            this.onKeyboardHidden
+            this._onKeyboardHidden
         )
 
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
-            this.onMessageComposerFocused
+            this._onMessageComposerFocused
         )
 
-        await this.loadConversationHistoryAsync();
+        await this._loadConversationHistoryAsync();
     }
 
     componentWillUnmount() {
@@ -65,6 +64,7 @@ export default class ConversationView extends React.Component {
     
     render() {
         const contactItemName = this.props.navigation.getParam('contactName', '???');
+        const contactId = this.props.navigation.getParam('id', undefined);
         const contactAvatarUri = this.props.navigation.getParam('contactAvatarUri', undefined);
 
         // TODO: ...
@@ -72,11 +72,12 @@ export default class ConversationView extends React.Component {
             <View style={CommonStyles.base}>
                 <ConversationHeaderView 
                     navigation={this.props.navigation}
+                    contactId={contactId}
                     contactName={contactItemName}
                     contactAvatarUri={contactAvatarUri} />
 
                 <View style={styles.conversationContainer}>
-                    {this.renderConversationHistory(contactItemName, contactAvatarUri)}
+                    {this._renderConversationHistory(contactItemName, contactAvatarUri)}
                 </View>
 
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -84,22 +85,22 @@ export default class ConversationView extends React.Component {
                         <TextInput 
                             multiline={true}
                             numberOfLines={5}
-                            onFocus={() => this.onMessageComposerFocused()}
+                            onFocus={() => this._onMessageComposerFocused()}
                             onContentSizeChange={(event) => {
                                 this.setState({ messageComposerHeight: event.nativeEvent.contentSize.height })
                             }}
-                            onChangeText={(text) => this.onMessageComposerTextChanged(text)}
+                            onChangeText={(text) => this._onMessageComposerTextChanged(text)}
                             placeholder={getLocalizedString("TypeMessageLabel")} 
                             value={this.state.text}
                             style={[styles.messageComposer, {height: Math.max(50, this.state.messageComposerHeight)}]} />
-                        {this.renderMessageComposerOptions()}
+                        {this._renderMessageComposerOptions()}
                     </View>
                 </View>
             </View>
         );
     }
 
-    renderConversationHistory(contactItemName, contactAvatarUri) {
+    _renderConversationHistory(contactItemName, contactAvatarUri) {
         if (this.state.isLoading) {
             return (<FullScreenLoadingSpinnerView />);
         }
@@ -124,21 +125,21 @@ export default class ConversationView extends React.Component {
                                 conversationPartnerAvatarUri={contactAvatarUri}
                                 messageContent={item.messageContent}
                                 messageTimestamp={DateTimeUtils.pretifyDateForMessageBubble(item.timestamp)}
-                                messageReceiptStatus={this.mockMessageReceiptStatus(item)} />
+                                messageReceiptStatus={this._mockMessageReceiptStatus(item)} />
                         );
                     }}/>
             );
         }
     }
 
-    renderMessageComposerOptions() {
+    _renderMessageComposerOptions() {
         if (this.state.shouldShowSendMessageButton) {
             return (
                 <View style={styles.actionIcons}>
-                    <TouchableOpacity onPress={this.onSendMessage}>
+                    <TouchableOpacity onPress={this._onSendMessage}>
                         <Icon size={40} marginStart={8} color={AppColors.actionPrimary} name='send'/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.onBeginAudioMessageRecording}>
+                    <TouchableOpacity onPress={this._onBeginAudioMessageRecording}>
                         <Icon size={40} marginStart={8} color={AppColors.appBrand} name='keyboard-voice'/>
                     </TouchableOpacity>
                 </View>
@@ -146,10 +147,10 @@ export default class ConversationView extends React.Component {
         } else {
             return (
                 <View style={styles.actionIcons}>
-                    <TouchableOpacity onPress={this.onSendMediaCaptureMessage}>
+                    <TouchableOpacity onPress={this._onSendMediaCaptureMessage}>
                         <Icon size={40} marginStart={8} color={AppColors.appBrand} name='camera'/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.onBeginAudioMessageRecording}>
+                    <TouchableOpacity onPress={this._onBeginAudioMessageRecording}>
                         <Icon size={40} marginStart={8} color={AppColors.appBrand} name='keyboard-voice'/>
                     </TouchableOpacity>
                 </View>
@@ -157,14 +158,14 @@ export default class ConversationView extends React.Component {
         }   
     }
 
-    async loadConversationHistoryAsync() {
+    async _loadConversationHistoryAsync() {
         this.state.conversationHistoryList = await MockService.fetchMockMessagesAsync();
         //this.state.conversationHistoryList = []; // TODO: ....
         this.state.isLoading = false;
         this.setState(this.state)
     }
 
-    onMessageComposerFocused() {
+    _onMessageComposerFocused() {
         console.log('Message composer focused...');
         if (this.state.text.length >= 1) {
             this.state.shouldShowSendMessageButton = true;
@@ -172,39 +173,39 @@ export default class ConversationView extends React.Component {
         }
     }
 
-    onKeyboardHidden() {
+    _onKeyboardHidden() {
         console.log('Message composer unfocused...');
         this.state.shouldShowSendMessageButton = false;
         this.setState(this.state);
     }
 
-    onMessageComposerTextChanged(text) {
+    _onMessageComposerTextChanged(text) {
         this.state.shouldShowSendMessageButton = text.length >= 1;
         this.state.text = text;
         this.setState(this.state);
     }
 
     // message actions (should be logically grouped in some other place, same class / extension)
-    onSendMessage() {
+    _onSendMessage() {
         console.log('Send Message requested');
-        this.processAndSendMessage(this.state.text);
+        this._processAndSendMessage(this.state.text);
 
         this.state.text = '';
         this.state.shouldShowSendMessageButton = false;
         this.setState(this.state);
     }
 
-    onSendMediaCaptureMessage() {
+    _onSendMediaCaptureMessage() {
         console.log('Open camera for media capture requested')
         ToastAndroid.show('TODO: Send Media Capture', ToastAndroid.LONG);
     }
 
-    onBeginAudioMessageRecording() {
+    _onBeginAudioMessageRecording() {
         console.log('Begin audio recording requested')
         ToastAndroid.show('TODO: Begin Audio Message', ToastAndroid.LONG);
     }
 
-    mockMessageReceiptStatus(messageItem) {
+    _mockMessageReceiptStatus(messageItem) {
         // check message item receipt status
         if (!messageItem.isCurrentlyLoggedInUserMessage) {
             return MessageReceiptState.DEFAULT;
@@ -215,17 +216,17 @@ export default class ConversationView extends React.Component {
         }
     }
 
-    processAndSendMessage(text) {
+    _processAndSendMessage(text) {
         this.state.conversationHistoryList.push({
             messageContent: text,
             timestamp: new Date(),
             isCurrentlyLoggedInUserMessage: true
         });
 
-        this.updateMockReplyLogic();
+        this._updateMockReplyLogic();
     }
 
-    updateMockReplyLogic() {
+    _updateMockReplyLogic() {
         this.messagesUntilMockReply--;
         if (this.messagesUntilMockReply === 0) {
             const mockReply = this.mockReplies[MiscUtils.randomNumberInRange(0, 3)];

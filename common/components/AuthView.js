@@ -7,7 +7,7 @@ import getLocalizedString from '../components/ui-helpers/strings/StringLocalizer
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.onLogin = this.onLogin.bind(this);
+    this._onLogin = this._onLogin.bind(this);
     this.state = {
       isLoading: true
     }
@@ -24,20 +24,20 @@ export default class Login extends Component {
       <View style={CommonStyles.base}>
         <Button
           title={getLocalizedString('LoginTitle')}
-          onPress={this.onLogin}/>
+          onPress={this._onLogin}/>
       </View>
     );
   }
 
-  async onLogin() {
-    if (await this.loginAsync()) {
+  async _onLogin() {
+    if (await this._loginAsync()) {
         this.props.navigation.navigate('SimpleChatList');
     } else {
         // TODO: prompt error
     }
   }
 
-  async loginAsync() {
+  async _loginAsync() {
     // TODO: should go through Login API service
     await timeout(1000);
     this.state.isLoading = false;

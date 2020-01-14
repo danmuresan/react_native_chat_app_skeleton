@@ -24,7 +24,7 @@ export class ProfileDrawerView extends React.Component {
     }
 
     // TODO: EXPORT THIS SOMEHOW
-    updateProfilePicture(uri) {
+    _updateProfilePicture(uri) {
         // TODO: ...
         if (uri === undefined) {
             console.log('Error uploading new profile pic: invalid uri')

@@ -35,21 +35,21 @@ export default class BaseContactView extends React.Component {
             avatarChangeModalVisible: PropTypes.bool
         };
 
-        this.loadDataAsync = this.loadDataAsync.bind(this);
-        this.setModalVisible = this.setModalVisible.bind(this);
-        this.onProfileAvatarChangeRequested = this.onProfileAvatarChangeRequested.bind(this);
-        this.onOptionSelected = this.onOptionSelected.bind(this);
+        this._loadDataAsync = this._loadDataAsync.bind(this);
+        this._setModalVisible = this._setModalVisible.bind(this);
+        this._onProfileAvatarChangeRequested = this._onProfileAvatarChangeRequested.bind(this);
+        this._onOptionSelected = this._onOptionSelected.bind(this);
     }
 
     async componentDidMount() {
-        await this.loadDataAsync();
+        await this._loadDataAsync();
     }
 
     render() {
-        return this.renderForState();
+        return this._renderForState();
     }
 
-    renderForState() {
+    _renderForState() {
         console.log('Loading up contact screen for state: ' + this.state.viewState);
         switch (this.state.viewState) {
             case ViewState.LOADING:
@@ -73,10 +73,10 @@ export default class BaseContactView extends React.Component {
                             visible={this.state.avatarChangeModalVisible}
                             onRequestClose={() => {
                                 console.log('Avatar change modal has been closed.');
-                                this.setModalVisible(false);
+                                this._setModalVisible(false);
                             }}>
                             <View style={styles.changeAvatarModal}>
-                                <TouchableWithoutFeedback onPress={() => this.onChangeAvatarOptionSelected(true)}>
+                                <TouchableWithoutFeedback onPress={() => this._onChangeAvatarOptionSelected(true)}>
                                     <View style={{
                                             flex: 1, 
                                             flexDirection: 'row', 
@@ -90,7 +90,7 @@ export default class BaseContactView extends React.Component {
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <Divider style={styles.contactDetailsDivider} />
-                                <TouchableWithoutFeedback onPress={() => this.onChangeAvatarOptionSelected(false)}>
+                                <TouchableWithoutFeedback onPress={() => this._onChangeAvatarOptionSelected(false)}>
                                     <View style={{
                                             flex: 1, 
                                             flexDirection: 'row', 
@@ -105,7 +105,7 @@ export default class BaseContactView extends React.Component {
                                 </TouchableWithoutFeedback>
                             </View>
                         </Modal>
-                        <TouchableWithoutFeedback style={styles.changeAvatarContainer} onPress={this.onProfileAvatarChangeRequested}>
+                        <TouchableWithoutFeedback style={styles.changeAvatarContainer} onPress={this._onProfileAvatarChangeRequested}>
                             <View>
                                 <Image
                                     style={styles.contactDetailsImage}
@@ -123,7 +123,7 @@ export default class BaseContactView extends React.Component {
                         </Text>
                         <Divider style={styles.contactDetailsDivider}/>
                         <FlatList 
-                            ItemSeparatorComponent={this.renderListItemSeparator}
+                            ItemSeparatorComponent={this._renderListItemSeparator}
                             style={styles.list}
                             data={this.props.contactOptionsList}
                             renderItem={({ item }) => {
@@ -131,7 +131,7 @@ export default class BaseContactView extends React.Component {
                                     <TextWithIconTouchable
                                         text={item.optionText}
                                         iconName={item.optionIconName}
-                                        onPress={() => this.onOptionSelected(item)} />
+                                        onPress={() => this._onOptionSelected(item)} />
                                 )
                             }}/>
                     </View>
@@ -147,7 +147,7 @@ export default class BaseContactView extends React.Component {
                         </Text>
                         <Divider style={styles.contactDetailsDivider}/>
                         <FlatList 
-                            ItemSeparatorComponent={this.renderListItemSeparator}
+                            ItemSeparatorComponent={this._renderListItemSeparator}
                             style={styles.list}
                             data={this.props.contactOptionsList}
                             renderItem={({ item }) => {
@@ -155,7 +155,7 @@ export default class BaseContactView extends React.Component {
                                     <TextWithIconTouchable
                                         text={item.optionText}
                                         iconName={item.optionIconName}
-                                        onPress={() => this.onOptionSelected(item)} />
+                                        onPress={() => this._onOptionSelected(item)} />
                                 )
                             }}/>
                     </View>
@@ -163,7 +163,7 @@ export default class BaseContactView extends React.Component {
         }
     }
 
-    renderListItemSeparator = () => {
+    _renderListItemSeparator = () => {
         return (
             <View
               style={styles.listItemSeparator}
@@ -171,7 +171,7 @@ export default class BaseContactView extends React.Component {
           );
     };
 
-    async loadDataAsync() {
+    async _loadDataAsync() {
         if (this.props.loadDataTask) {
             const data = await this.props.loadDataTask();
             this.state.contactAvatarUri = data.contactAvatarUri
@@ -187,11 +187,11 @@ export default class BaseContactView extends React.Component {
         this.setState(this.state);
     }
 
-    setModalVisible(visible) {
+    _setModalVisible(visible) {
         this.setState({avatarChangeModalVisible: visible});
     }
 
-    onOptionSelected(option) {
+    _onOptionSelected(option) {
         console.log("Option clicked " + option.optionText + ', type: ' + option.optionType);
         ToastAndroid.show('TODO: Option Clicked: ' + option.optionText + ', type: ' + option.optionType, ToastAndroid.LONG);
 
@@ -218,13 +218,13 @@ export default class BaseContactView extends React.Component {
         }
     }    
 
-    onProfileAvatarChangeRequested() {
+    _onProfileAvatarChangeRequested() {
         console.log("Profile avatar change requested. Opening menu...");
-        this.setModalVisible(true);
+        this._setModalVisible(true);
     }
 
-    onChangeAvatarOptionSelected(shouldOpenCamera) {
-        this.setModalVisible(!this.state.avatarChangeModalVisible);
+    _onChangeAvatarOptionSelected(shouldOpenCamera) {
+        this._setModalVisible(!this.state.avatarChangeModalVisible);
         console.log("lalala");
 
         if (shouldOpenCamera) {
