@@ -17,34 +17,43 @@ export class SimpleChatListItem extends Component {
             + ', imageUri:' + props.avatarUri 
             + ', navigation: ' + (props.navigation !== undefined));
             
-        this.onItemClicked = this.onItemClicked.bind(this);
+        this.navigateToConversationHistory = this.navigateToConversationHistory.bind(this);
+        this.navigateToChatDetails = this.navigateToChatDetails.bind(this);
     }
 
     render() {
         return (
-            <TouchableOpacity style={styles.touchableListItem} onPress={this.onItemClicked} delayPressIn={50}>
                 <View style={styles.itemContainer}>
-                    <Image 
-                        style={styles.itemImage}
-                        source={{uri: this.props.avatarUri}}/>
-                    <View>
-                        <Text
-                            style={styles.chatItemTitle}>
-                            {this.props.contactName}
-                        </Text>
-                        <Text
-                            style={styles.chatItemSubtitle}>
-                            Some text goes here...
-                        </Text>
-                    </View>
+                    <TouchableOpacity style={styles.touchableListItem} onPress={this.navigateToChatDetails} delayPressIn={10}>
+                        <Image 
+                            style={styles.itemImage}
+                            source={{uri: this.props.avatarUri}}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.touchableListItem} onPress={this.navigateToConversationHistory} delayPressIn={20}>
+                        <View>
+                            <Text
+                                style={styles.chatItemTitle}>
+                                {this.props.contactName}
+                            </Text>
+                            <Text
+                                style={styles.chatItemSubtitle}>
+                                Some text goes here...
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
         );
     }
 
-    onItemClicked() {
-        // TODO: navigate to conversation when clicking on the item,
-        // to ChatDetails only when clicking on contact icon
+    navigateToConversationHistory() {
+        this.props.navigation.navigate('Conversation', {
+            id: this.props.id,
+            contactName: this.props.contactName,
+            contactAvatarUri: this.props.avatarUri
+        });
+    }
+
+    navigateToChatDetails() {
         this.props.navigation.navigate('ChatDetails', {
             id: this.props.id,
             name: this.props.contactName,
