@@ -7,7 +7,7 @@ export class ConversationHeaderView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={this.onBackButtonPressed()}>
+                <TouchableOpacity onPress={() => this.onBackButtonPressed()}>
                     <Icon 
                         name="keyboard-backspace" 
                         margin={8}
@@ -24,8 +24,9 @@ export class ConversationHeaderView extends React.Component {
     }
 
     onBackButtonPressed() {
-        if (this.props.navigator && this.props.navigator.getCurrentRoutes() > 1) {
-            this.props.navigator.pop();
+        console.log('Back navigation requested');   
+        if (this.props.navigation) {
+            this.props.navigation.pop();
         }
     }
 }

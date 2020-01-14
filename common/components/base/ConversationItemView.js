@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native'
+import { Icon } from 'react-native-elements'
 import { AppColors } from '../ui-helpers/Colors'
+import { MessageReceiptState } from '../ConversationView'
 
 export class ConversationItemView extends React.Component {
     render() {
@@ -44,12 +46,24 @@ export class ConversationItemView extends React.Component {
                             {this.props.messageContent}
                         </Text>
                     </View>
-                    <Text style={styles.currentUserMessageTimestamp}>
-                        {this.props.messageTimestamp}
-                    </Text>
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
+                        <Text style={styles.currentUserMessageTimestamp}>
+                            {this.props.messageTimestamp}
+                        </Text>
+                        {this.renderMessageReceiptStatus(this.props.messageReceiptStatus)}
+                    </View>
                 </View>
             );
         }
+    }
+
+    renderMessageReceiptStatus(status) {
+        if (status === MessageReceiptState.READ)
+            return (
+                <Icon name='check' color={AppColors.textColorSecondary} size={12} marginStart={-8} marginEnd={16} />
+            );
+
+        // TODO: handle other cases as well
     }
 }
 

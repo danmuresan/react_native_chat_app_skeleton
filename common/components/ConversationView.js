@@ -11,6 +11,12 @@ import { MiscUtils } from '../utils/MiscUtils'
 import MockService from '../services/MockService'
 import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
+export const MessageReceiptState = Object.freeze({
+    DEFAULT: 1,
+    SENT: 2,
+    READ: 3
+});
+
 export default class ConversationView extends React.Component {
     constructor(props) {
         super(props);
@@ -65,6 +71,7 @@ export default class ConversationView extends React.Component {
         return (
             <View style={CommonStyles.base}>
                 <ConversationHeaderView 
+                    navigation={this.props.navigation}
                     contactName={contactItemName}
                     contactAvatarUri={contactAvatarUri} />
 
@@ -116,7 +123,8 @@ export default class ConversationView extends React.Component {
                                 isConversationPartner={!item.isCurrentlyLoggedInUserMessage} 
                                 conversationPartnerAvatarUri={contactAvatarUri}
                                 messageContent={item.messageContent}
-                                messageTimestamp={DateTimeUtils.pretifyDateForMessageBubble(item.timestamp)} />
+                                messageTimestamp={DateTimeUtils.pretifyDateForMessageBubble(item.timestamp)}
+                                messageReceiptStatus={this.mockMessageReceiptStatus(item)} />
                         );
                     }}/>
             );
@@ -194,6 +202,17 @@ export default class ConversationView extends React.Component {
     onBeginAudioMessageRecording() {
         console.log('Begin audio recording requested')
         ToastAndroid.show('TODO: Begin Audio Message', ToastAndroid.LONG);
+    }
+
+    mockMessageReceiptStatus(messageItem) {
+        // check message item receipt status
+        if (!messageItem.isCurrentlyLoggedInUserMessage) {
+            return MessageReceiptState.DEFAULT;
+        }
+
+        if (this.state.conversationHistoryList.indexOf(messageItem) === this.state.conversationHistoryList.length - 1) {
+            return MessageReceiptState.READ;
+        }
     }
 
     processAndSendMessage(text) {
