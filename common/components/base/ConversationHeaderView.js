@@ -34,6 +34,7 @@ export class ConversationHeaderView extends React.Component {
 const styles = StyleSheet.create({
     container: {
         height: '8%',
+        minHeight: 45,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
