@@ -171,7 +171,6 @@ export default class ConversationView extends React.Component {
     }
 
     onMessageComposerTextChanged(text) {
-        console.log('LENGTH ' + text.length)
         this.state.shouldShowSendMessageButton = text.length >= 1;
         this.state.text = text;
         this.setState(this.state);
@@ -185,7 +184,6 @@ export default class ConversationView extends React.Component {
         this.state.text = '';
         this.state.shouldShowSendMessageButton = false;
         this.setState(this.state);
-        ToastAndroid.show('TODO: Send Message', ToastAndroid.LONG);
     }
 
     onSendMediaCaptureMessage() {
