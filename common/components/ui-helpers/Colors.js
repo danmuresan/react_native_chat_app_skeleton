@@ -9,6 +9,7 @@ const ColorsRaw = {
     darkGray2: '#6a6a6a',
     darkGray3: '#5a5a5a',
     darkGray4: '#2a2a2a',
+    lightGray1: '#EBF2F3',
     lightGreen1: '#3FEE90'
 };
 
@@ -20,5 +21,6 @@ export const AppColors = {
     textColorPrimary: ColorsRaw.black,
     textColorSecondary: ColorsRaw.darkGray3,
     bottomBarPrimary: ColorsRaw.darkGray2,
-    actionPrimary: ColorsRaw.lightGreen1
+    actionPrimary: ColorsRaw.lightGreen1,
+    backgroundSecondary: ColorsRaw.lightGray1
 };

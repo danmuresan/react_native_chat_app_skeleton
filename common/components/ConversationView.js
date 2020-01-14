@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements'
 import { CommonStyles } from './ui-helpers/CommonStyles'
 import { AppColors } from './ui-helpers/Colors'
 import { FullScreenLoadingSpinnerView } from './base/FullScreenLoadingSpinnerView'
+import { ConversationItemView } from './base/ConversationItemView'
 import MockService from '../services/MockService'
 import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
@@ -47,12 +48,13 @@ export default class ConversationView extends React.Component {
     
     render() {
         const contactItemName = this.props.navigation.getParam('contactName', '???');
+        const contactAvatarUri = this.props.navigation.getParam('contactAvatarUri', undefined);
 
         // TODO: ...
         return (
             <View style={CommonStyles.base}>
                 <View style={styles.conversationContainer}>
-                    {this.renderConversationHistory(contactItemName)}
+                    {this.renderConversationHistory(contactItemName, contactAvatarUri)}
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.messageComposerContainer}>
@@ -74,7 +76,7 @@ export default class ConversationView extends React.Component {
         );
     }
 
-    renderConversationHistory(contactItemName) {
+    renderConversationHistory(contactItemName, contactAvatarUri) {
         if (this.state.isLoading) {
             return (<FullScreenLoadingSpinnerView />);
         }
@@ -87,15 +89,17 @@ export default class ConversationView extends React.Component {
             );
         } else {
             return (
-                <FlatList 
+                <FlatList
+                    ref={ref => this.flatList = ref}
                     style={styles.conversationHistoryFlatList}
-                    data={this.state.conversationHistoryList} 
+                    data={this.state.conversationHistoryList}
+                    onContentSizeChange={() => this.flatList.scrollToEnd(true)}
                     renderItem={({item}) => {
                         return (
-                            // TODO: process encoded emoticons and other metadata about a message item
-                            <View style={{flexDirection: 'row-reverse', alignItems: 'flex-start', alignSelf: 'stretch', width: '100%'}}>
-                                <Text style={{justifyContent: 'flex-start', alignItems: 'flex-start', alignSelf: 'stretch'}}>{item.messageContent}</Text>
-                            </View>
+                            <ConversationItemView 
+                                isConversationPartner={!item.isCurrentlyLoggedInUserMessage} 
+                                conversationPartnerAvatarUri={contactAvatarUri}
+                                messageContent={item.messageContent} />
                         );
                     }}/>
             );
@@ -132,7 +136,7 @@ export default class ConversationView extends React.Component {
         console.log('xxxx')
 
         this.state.conversationHistoryList = await MockService.fetchMockMessagesAsync();
-        this.state.conversationHistoryList = []; // TODO: ....
+        //this.state.conversationHistoryList = []; // TODO: ....
         this.state.isLoading = false;
         this.setState(this.state)
     }
@@ -181,7 +185,8 @@ export default class ConversationView extends React.Component {
 
     processAndSendMessage(text) {
         this.state.conversationHistoryList.push({
-            messageContent: text
+            messageContent: text,
+            isCurrentlyLoggedInUserMessage: true
         });
     }
 }
@@ -226,6 +231,8 @@ const styles = StyleSheet.create({
     },
     conversationHistoryFlatList: {
         flex: 1,
-        width: '100%'
+        width: '100%',
+        marginTop: 16,
+        marginBottom: 16
     }
 });

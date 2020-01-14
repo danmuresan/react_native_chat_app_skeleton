@@ -207,6 +207,7 @@ export default class BaseContactView extends React.Component {
             case OptionType.SEND_MESSAGE:
                 this.props.navigation.navigate('Conversation', {
                     id: this.props.contactId,
+                    contactAvatarUri: this.props.contactAvatarUri,
                     contactName: this.props.contactName
                 });
                 break;
