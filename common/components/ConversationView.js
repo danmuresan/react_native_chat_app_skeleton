@@ -5,6 +5,7 @@ import { CommonStyles } from './ui-helpers/CommonStyles'
 import { AppColors } from './ui-helpers/Colors'
 import { FullScreenLoadingSpinnerView } from './base/FullScreenLoadingSpinnerView'
 import { ConversationItemView } from './base/ConversationItemView'
+import { ConversationHeaderView } from './base/ConversationHeaderView'
 import MockService from '../services/MockService'
 import getLocalizedString from './ui-helpers/strings/StringLocalizer'
 
@@ -53,9 +54,14 @@ export default class ConversationView extends React.Component {
         // TODO: ...
         return (
             <View style={CommonStyles.base}>
+                <ConversationHeaderView 
+                    contactName={contactItemName}
+                    contactAvatarUri={contactAvatarUri} />
+
                 <View style={styles.conversationContainer}>
                     {this.renderConversationHistory(contactItemName, contactAvatarUri)}
                 </View>
+
                 <View style={{flexDirection: 'row'}}>
                     <View style={styles.messageComposerContainer}>
                         <TextInput 
@@ -232,7 +238,7 @@ const styles = StyleSheet.create({
     conversationHistoryFlatList: {
         flex: 1,
         width: '100%',
-        marginTop: 16,
-        marginBottom: 16
+        paddingTop: 8,
+        paddingBottom: 8
     }
 });
