@@ -62,7 +62,7 @@ export default class ConversationView extends React.Component {
                     {this.renderConversationHistory(contactItemName, contactAvatarUri)}
                 </View>
 
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={styles.messageComposerContainer}>
                         <TextInput 
                             multiline={true}
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center'
     },
     conversationContainer: {
-        flex: 3
+        flex: 8
     },
     messageComposerContainer: {
         flex: 1,
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     conversationHistoryFlatList: {
         flex: 1,
         width: '100%',
-        paddingTop: 8,
-        paddingBottom: 8
+        marginBottom: 4,
+        marginTop: 4
     }
 });
